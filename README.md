@@ -237,7 +237,7 @@ CONFIG_ZMK_IDLE_SLEEP_TIMEOUT=2700000 // 45 minutos
 
 ## Changelog
 
-### v1.0.0 (2024-03-XX)
+### v1.0.0 (2025-03-31)
 - Configuração inicial
 - Suporte a português
 - 4 layers básicas
