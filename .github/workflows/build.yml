@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - "config/**"
+      - "!config/**.md"
+      - "!**.md"
 
 jobs:
   build:
