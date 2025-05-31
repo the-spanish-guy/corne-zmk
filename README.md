@@ -4,6 +4,7 @@ Este é um fork personalizado da configuração ZMK para o teclado Corne Wireles
 
 ## Sumário
 - [Quick Start](#quick-start)
+- [Compilação Manual](#compilação-manual)
 - [Hardware Suportado](#hardware-suportado)
 - [Características](#características)
 - [Layers e Layout](#layers-e-layout)
@@ -19,22 +20,114 @@ Este é um fork personalizado da configuração ZMK para o teclado Corne Wireles
 ## Quick Start
 
 1. **Download do Firmware**
-   ```bash
-   git clone https://github.com/seu-usuario/corne-zmk
-   cd corne-zmk
-   ```
+   - Acesse a aba "Actions" do seu fork
+   - Baixe os arquivos .uf2 da última build bem-sucedida:
+     - `corne_left-nice_nano_v2-zmk.uf2` (lado esquerdo)
+     - `corne_right-nice_nano_v2-zmk.uf2` (lado direito)
 
-2. **Flash Rápido**
+2. **Flash do Firmware**
    - Pressione reset 2x no Nice!Nano
-   - Copie o arquivo .uf2 correspondente
-   - Pronto para usar!
+   - O teclado aparecerá como dispositivo USB "NICENANO"
+   - Copie o arquivo .uf2 correspondente para cada lado
+   - Aguarde o LED piscar indicando sucesso
 
 3. **Primeiros Passos**
    - Use `SPC` + `hold` para Layer 1 (números)
    - Use `ENT` + `hold` para Layer 2 (navegação)
    - Use `LYR3` para Layer 3 (funções)
 
----
+> [!NOTE]
+> Para usar este layout como base para sua própria configuração:
+> 1. Faça um fork deste repositório
+> 2. Habilite as GitHub Actions no seu fork
+> 3. Edite os arquivos em `config/` conforme sua necessidade
+> 4. Faça commit das alterações para gerar os novos firmwares automaticamente
+
+> [!TIP]
+> Use a aba "Actions" do GitHub para baixar os firmwares gerados após cada commit.
+
+## Compilação Manual
+
+<details>
+<summary>Clique para expandir as instruções de compilação manual</summary>
+
+Se precisar compilar o firmware manualmente sem usar a GitHub Action, siga estes passos:
+
+### 1. Preparação do Ambiente
+```bash
+# Instale as dependências necessárias
+sudo apt install -y git cmake ninja-build wget python3-pip python3-venv
+
+# Instale o west
+pip3 install --user -U west
+
+# Clone o ZMK
+git clone https://github.com/zmkfirmware/zmk
+cd zmk
+
+# Inicialize o west e atualize as dependências
+west init -l app/
+west update
+west zephyr-export
+```
+
+### 2. Instalação do SDK
+```bash
+# Instale o SDK do Zephyr
+wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.1/zephyr-sdk-0.16.1_linux-x86_64.tar.gz
+tar xvf zephyr-sdk-0.16.1_linux-x86_64.tar.gz
+cd zephyr-sdk-0.16.1
+./setup.sh
+```
+
+### 3. Compilação do Firmware
+```bash
+# Volte para a pasta do ZMK
+cd ../
+
+# Compile para o lado esquerdo
+west build -d build/left -b nice_nano_v2 -- -DSHIELD=corne_left -DZMK_CONFIG=/caminho/para/seu/config
+# Neste cenario: -DZMK_CONFIG=./corne-zmk/config
+
+# Compile para o lado direito
+west build -d build/right -b nice_nano_v2 -- -DSHIELD=corne_right -DZMK_CONFIG=/caminho/para/seu/config
+# Neste cenario: -DZMK_CONFIG=./corne-zmk/config
+```
+
+Os arquivos .uf2 gerados estarão em:
+- Lado esquerdo: `build/left/zephyr/zmk.uf2`
+- Lado direito: `build/right/zephyr/zmk.uf2`
+
+### Script de Automação
+
+Você pode criar um script para automatizar o processo:
+
+```bash
+#!/bin/bash
+
+# Configurações
+ZMK_CONFIG_DIR="/caminho/para/seu/config"  # Neste cenario: ./corne-zmk/config
+OUTPUT_DIR="firmware"
+
+# Cria diretório de saída
+mkdir -p $OUTPUT_DIR
+
+# Compila lado esquerdo
+echo "Compilando lado esquerdo..."
+west build -d build/left -b nice_nano_v2 -- -DSHIELD=corne_left -DZMK_CONFIG=$ZMK_CONFIG_DIR
+cp build/left/zephyr/zmk.uf2 $OUTPUT_DIR/corne_left.uf2
+
+# Compila lado direito
+echo "Compilando lado direito..."
+west build -d build/right -b nice_nano_v2 -- -DSHIELD=corne_right -DZMK_CONFIG=$ZMK_CONFIG_DIR
+cp build/right/zephyr/zmk.uf2 $OUTPUT_DIR/corne_right.uf2
+
+echo "Firmwares gerados em $OUTPUT_DIR"
+```
+
+**Nota**: Este processo deve ser feito em um ambiente Linux (ou WSL se estiver no Windows).
+
+</details>
 
 ## Hardware Suportado
 
