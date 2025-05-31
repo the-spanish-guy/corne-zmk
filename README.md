@@ -36,16 +36,6 @@ Este é um fork personalizado da configuração ZMK para o teclado Corne Wireles
    - Use `ENT` + `hold` para Layer 2 (navegação)
    - Use `LYR3` para Layer 3 (funções)
 
-> [!NOTE]
-> Para usar este layout como base para sua própria configuração:
-> 1. Faça um fork deste repositório
-> 2. Habilite as GitHub Actions no seu fork
-> 3. Edite os arquivos em `config/` conforme sua necessidade
-> 4. Faça commit das alterações para gerar os novos firmwares automaticamente
-
-> [!TIP]
-> Use a aba "Actions" do GitHub para baixar os firmwares gerados após cada commit.
-
 ## Compilação Manual
 
 <details>
