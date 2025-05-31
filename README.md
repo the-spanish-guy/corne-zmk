@@ -2,12 +2,56 @@
 
 Este é um fork personalizado da configuração ZMK para o teclado Corne Wireless, otimizado para uso em português e com várias melhorias de qualidade de vida.
 
+## Sumário
+- [Quick Start](#quick-start)
+- [Hardware Suportado](#hardware-suportado)
+- [Características](#características)
+- [Layers e Layout](#layers-e-layout)
+- [Combos e Atalhos](#combos-e-atalhos)
+- [Suporte ao Português](#suporte-ao-português)
+- [Configuração e Instalação](#configuração-e-instalação)
+- [Personalização](#personalização)
+- [Troubleshooting](#troubleshooting)
+- [Contribuindo](#contribuindo)
+- [Changelog](#changelog)
+- [Créditos](#créditos)
+
+## Quick Start
+
+1. **Download do Firmware**
+   ```bash
+   git clone https://github.com/seu-usuario/corne-zmk
+   cd corne-zmk
+   ```
+
+2. **Flash Rápido**
+   - Pressione reset 2x no Nice!Nano
+   - Copie o arquivo .uf2 correspondente
+   - Pronto para usar!
+
+3. **Primeiros Passos**
+   - Use `SPC` + `hold` para Layer 1 (números)
+   - Use `ENT` + `hold` para Layer 2 (navegação)
+   - Use `LYR3` para Layer 3 (funções)
+
+---
+
 ## Hardware Suportado
 
 - Controlador: Nice!Nano v2
 - Display: Suporte para OLED e Nice!View
 - RGB Underglow (opcional)
 - Switches: Suporte para qualquer switch MX
+
+### Configurações Recomendadas por Sistema Operacional
+
+| Sistema | Bluetooth | Sleep Timer | RGB Mode |
+|---------|-----------|-------------|----------|
+| Windows | Profile 1 | 30 min | Breathing |
+| macOS   | Profile 2 | 45 min | Static |
+| Linux   | Profile 3 | 60 min | Rainbow |
+
+---
 
 ## Características
 
@@ -19,45 +63,203 @@ Este é um fork personalizado da configuração ZMK para o teclado Corne Wireles
 - Controles de mídia e RGB
 - Otimizações de energia para maior duração da bateria
 
-## Layers
+### Diagrama de Acesso às Layers
 
-### Layer Base (0)
+```mermaid
+graph TD
+    A[Layer 0 - Base] -->|SPC + hold| B[Layer 1 - Lower]
+    A -->|ENT + hold| C[Layer 2 - Raise]
+    A -->|LYR3| D[Layer 3 - Funções]
+```
+
+---
+
+## Layers e Layout
+
+### Layer Base (0) `[DEFAULT]`
 - Layout QWERTY padrão
 - Modificadores nas teclas home row
 - Acesso aos outros layers através de hold
 
-### Layer Lower (1)
+```
+,-----------------------------------------.                    ,-----------------------------------------.
+| `TAB` |   Q  |   W  |   E  |   R  |   T  |                    |   Y  |   U  |   I  |   O  |   P  |`BKSP`|
+|-------+------+------+------+------+------|                    |------+------+------+------+------+------|
+|*CTRL* |`A/GUI`|`S/ALT`|`D/CTL`|`F/SFT`|   G  |                    |   H  |`J/SFT`|`K/CTL`|`L/ALT`|`;/GUI`| `'`  |
+|-------+------+------+------+------+------|                    |------+------+------+------+------+------|
+|*SHFT* |   Z  |   X  |   C  |   V  |   B  |                    |   N  |   M  |   ,  |   .  |   /  |`ESC` |
+`------------------+------+------+------+'                    `+------+------+------+------------------'
+                   |`TAB` |[SPC/1]|[ENT/2]|                    |[LYR3]|[BKSP/2]|`BKSP`|
+                   `--------------------'                    `--------------------'
+```
+
+### Layer Lower (1) `[NUMBERS]`
 - Números
 - Símbolos básicos
 - Controles do sistema
 
-### Layer Raise (2)
+```
+,-----------------------------------------.                    ,-----------------------------------------.
+| `TAB` | _1_  | _2_  | _3_  | _4_  | _5_  |                    | _6_  | _7_  | _8_  | _9_  | _0_  |`BKSP`|
+|-------+------+------+------+------+------|                    |------+------+------+------+------+------|
+|*BOOT* |#RGB_T|      |      |      |*F12* |                    | `-`  | `=`  | `~`  |      | `'`  |      |
+|-------+------+------+------+------+------|                    |------+------+------+------+------+------|
+|*PWR*  |      |      |      |      |      |                    |      |      |      |      |      |      |
+`------------------+------+------+------+'                    `+------+------+------+------------------'
+                   |      |      |      |                    |      |*SHFT*|      |
+                   `--------------------'                    `--------------------'
+```
+
+### Layer Raise (2) `[NAVIGATION]`
 - Teclado numérico
 - Navegação (setas)
 - Controles do cursor
 
-### Layer Funções (3)
+```
+,-----------------------------------------.                    ,-----------------------------------------.
+|      |`ESC` | _7_  | _8_  | _9_  | _0_  |                    |*HOME*|      | *UP* |      |      |      |
+|-------+------+------+------+------+------|                    |------+------+------+------+------+------|
+|      |*CAPS*| _4_  | _5_  | _6_  | `@`  |                    |*END* |*LEFT*|*DOWN*|*RGHT*|      |      |
+|-------+------+------+------+------+------|                    |------+------+------+------+------+------|
+|      |`DEL` | _1_  | _2_  | _3_  | `.`  |                    |      |      |      |      |      |      |
+`------------------+------+------+------+'                    `+------+------+------+------------------'
+                   |      |      |      |                    |      |      |      |
+                   `--------------------'                    `--------------------'
+```
+
+### Layer Funções (3) `[FUNCTION]`
 - Controles Bluetooth
 - Teclas de função (F1-F12)
 - Controles de mídia
 - Ajustes RGB
 
-## Combos
+```
+,-----------------------------------------.                    ,-----------------------------------------.
+|      |~BT1~ |~BT2~ |~BT3~ |~BT4~ |~BTCLR~|                    |_F1_  |_F2_  |_F3_  |_F4_  |_F5_  |_F6_  |
+|-------+------+------+------+------+------|                    |------+------+------+------+------+------|
+|#RGB_T |#RGB_H|#RGB_S|#RGB_B|#RGB_P|#RGB_E|                    |_F7_  |_F8_  |_F9_  |_F10_ |_F11_ |_F12_ |
+|-------+------+------+------+------+------|                    |------+------+------+------+------+------|
+|#RGB_E |#RGB_h|#RGB_s|#RGB_b|#RGB_p|#RGB_N|                    |      |      |      |      |      |      |
+`------------------+------+------+------+'                    `+------+------+------+------------------'
+                   |      |      |      |                    |      |      |      |
+                   `--------------------'                    `--------------------'
+```
 
-- `Q + W` = ESC
-- `K + L` = Enter
-- `E + D` = Ç
-- `[ ]` = Colchetes
-- `( )` = Parênteses
-- `{ }` = Chaves
-- `\ |` = Barra invertida e Pipe
+### Legenda de Formatação
+| Formatação | Significado | Exemplo |
+|------------|-------------|---------|
+| `código` | Teclas de sistema | `TAB`, `ESC`, `BKSP` |
+| *itálico* | Teclas modificadoras | *CTRL*, *SHIFT*, *ALT* |
+| _sublinhado_ | Teclas numéricas/função | _1_, _F1_, _F2_ |
+| #RGB | Controles RGB | #RGB_T, #RGB_H |
+| ~BT~ | Controles Bluetooth | ~BT1~, ~BTCLR~ |
+| [Layer] | Teclas de camada | [SPC/1], [LYR3] |
 
-## Tap Dance
+---
 
-- `A` = a → á → â
-- `E` = e → é → ê
+## Combos e Atalhos
 
-## Como Compilar
+### Combos Rápidos
+| Combo | Função | Uso Comum |
+|-------|---------|-----------|
+| `Q + W` | ESC | Sair de modos |
+| `K + L` | Enter | Confirmar ação |
+| `E + D` | Ç | Cedilha |
+| `[ ]` | Colchetes | Arrays, listas |
+| `( )` | Parênteses | Funções, expressões |
+| `{ }` | Chaves | Blocos de código |
+| `\ |` | Barra/Pipe | Comandos shell |
+
+### Tap Dance
+| Tecla | Sequência | Uso |
+|-------|-----------|-----|
+| `A` | a → á → â | Acentuação |
+| `E` | e → é → ê | Acentuação |
+
+---
+
+## Suporte ao Português
+
+### Acentuação Rápida
+| Tecla | Acento | Exemplo |
+|-------|---------|---------|
+| `A` 2x | á | café |
+| `A` 3x | â | câmara |
+| `E` 2x | é | época |
+| `E` 3x | ê | você |
+
+### Caracteres Especiais
+- Ç: `E + D`
+- À: `A + Q`
+- Ã: `A + N`
+
+### Macros Comuns
+- `cao`: automatically types "ção"
+- `voce`: automatically types "você"
+
+---
+
+## Dicas de Uso
+
+### Workflows Comuns
+1. **Programação**
+   - Use Layer 2 para navegação no código
+   - Combos para símbolos de programação
+   - Tap dance para comentários
+
+2. **Escrita em Português**
+   - Tap dance para acentos comuns
+   - Macros para terminações frequentes
+   - Combos para pontuação
+
+3. **Controle de Sistema**
+   - Layer 3 para controles Bluetooth
+   - RGB para feedback visual
+   - Atalhos de mídia rápidos
+
+---
+
+## Personalização Avançada
+
+### Ajustes de Tap Dance
+```c
+&td_a {
+    tapping-term-ms = <200>;
+    bindings = <&kp A>, <&kp RA(A)>, <&kp LS(RA(A))>;
+}
+```
+
+### Configurações RGB
+```c
+CONFIG_ZMK_RGB_UNDERGLOW_BRT_START=30
+CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX=60
+CONFIG_ZMK_RGB_UNDERGLOW_EFF_START=3
+```
+
+### Otimizações de Energia
+```c
+CONFIG_ZMK_IDLE_TIMEOUT=1800000      // 30 minutos
+CONFIG_ZMK_SLEEP=y
+CONFIG_ZMK_IDLE_SLEEP_TIMEOUT=2700000 // 45 minutos
+```
+
+---
+
+## Changelog
+
+### v1.0.0 (2024-03-XX)
+- Configuração inicial
+- Suporte a português
+- 4 layers básicas
+
+### v1.1.0 (Em desenvolvimento)
+- [ ] Mais macros em português
+- [ ] Melhorias no RGB
+- [ ] Novos combos
+
+---
+
+## Configuração e Instalação
 
 1. Fork este repositório
 2. Faça suas modificações (opcional)
