@@ -6,9 +6,9 @@
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/ext_power.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/rgb.h>
-#include <dt-bindings/zmk/ext_power.h>
 
 / {
     behaviors {
@@ -20,6 +20,7 @@
             quick_tap_ms = <0>;
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
+
             quick-tap-ms = <180>;
             global-quick-tap;
         };
@@ -28,6 +29,7 @@
             compatible = "zmk,behavior-hold-tap";
             label = "LTQ";
             bindings = <&mo>, <&kp>;
+
             #binding-cells = <2>;
             tapping-term-ms = <600>;
             global-quick-tap;
@@ -35,6 +37,7 @@
         };
 
         // Tap dance para acentos
+
         td_a: tap_dance_a {
             compatible = "zmk,behavior-tap-dance";
             label = "TAP_DANCE_A";
@@ -54,6 +57,7 @@
 
     macros {
         // Macros para palavras comuns em português
+
         cao: cao {
             label = "cao";
             compatible = "zmk,behavior-macro";
@@ -66,6 +70,7 @@
         compatible = "zmk,combos";
 
         // Combos existentes
+
         left_bkt {
             bindings = <&kp LEFT_BRACKET>;
             key-positions = <4 3>;
@@ -113,6 +118,7 @@
         };
 
         // Novos combos
+
         quick_esc {
             bindings = <&kp ESC>;
             key-positions = <1 2>;  // Q + W
@@ -137,19 +143,19 @@
 
         default_layer {
             bindings = <
-&kp TAB    &kp Q           &kp W           &kp E        &kp R             &kp T        &kp Y  &kp U             &kp I          &kp O            &kp P               &kp BSPC
-&kp LCTRL  &hm LEFT_GUI A  &hm LEFT_ALT S  &hm LCTRL D  &hm LEFT_SHIFT F  &kp G        &kp H  &hm RSHIFT J      &hm RCTRL K    &hm RIGHT_ALT L  &hm RGUI SEMICOLON  &kp SQT
-&kp LSHFT  &kp Z           &kp X           &kp C        &kp V             &kp B        &kp N  &kp M             &kp COMMA      &kp DOT          &kp FSLH            &kp ESC
-                                           &kp TAB      &lt 1 SPACE       &lt 2 ENTER  &mo 3  &ltq 2 BACKSPACE  &kp BACKSPACE
+&kp ESC    &kp Q           &kp W           &kp E         &kp R             &kp T        &kp Y  &kp U             &kp I         &kp O            &kp P               &kp BSPC
+&kp LCTRL  &hm LEFT_GUI A  &hm LEFT_ALT S  &hm LCTRL D   &hm LEFT_SHIFT F  &kp G        &kp H  &hm RSHIFT J      &hm RCTRL K   &hm RIGHT_ALT L  &hm RGUI SEMICOLON  &kp SQT
+&kp LSHFT  &kp Z           &kp X           &kp C         &kp V             &kp B        &kp N  &kp M             &kp COMMA     &kp DOT          &kp FSLH            &kp TAB
+                                           &kp LEFT_GUI  &lt 1 SPACE       &lt 2 ENTER  &mo 3  &ltq 2 BACKSPACE  &kp LEFT_ALT
             >;
         };
 
         lower_layer {
             bindings = <
-&kp TAB      &kp N1  &kp N2  &kp N3  &kp N4  &kp N5   &kp N6     &kp N7           &kp N8     &kp N9  &kp N0   &kp BSPC
-&bootloader  &rgb_ug RGB_TOG  &trans  &trans  &trans  &kp F12  &kp MINUS  &kp EQUAL        &kp GRAVE  &trans  &kp SQT  &trans
-&ext_power EP_TOG       &trans  &trans  &trans  &trans  &trans   &trans     &trans           &trans     &trans  &trans   &trans
-                             &trans  &trans  &trans   &trans     &kp RIGHT_SHIFT  &trans
+&kp TAB            &kp N1           &kp N2  &kp N3  &kp N4  &kp N5   &kp N6     &kp N7           &kp N8     &kp N9  &kp N0   &kp BSPC
+&bootloader        &rgb_ug RGB_TOG  &trans  &trans  &trans  &kp F12  &kp MINUS  &kp EQUAL        &kp GRAVE  &trans  &kp SQT  &trans
+&ext_power EP_TOG  &trans           &trans  &trans  &trans  &trans   &trans     &trans           &trans     &trans  &trans   &trans
+                                            &trans  &trans  &trans   &trans     &kp RIGHT_SHIFT  &trans
             >;
         };
 
@@ -164,24 +170,19 @@
 
         layer_3 {
             bindings = <
-&trans      &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_CLR    &kp F1   &kp F2   &kp F3   &kp F4   &kp F5   &kp F6
-&trans      &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_BRI &rgb_ug RGB_BRD &rgb_ug RGB_SPI  &kp F7   &kp F8   &kp F9   &kp F10  &kp F11  &kp F12
-&trans      &kp C_PREV   &kp C_PP      &kp C_NEXT    &kp C_VOL_DN  &kp C_VOL_UP   &trans   &trans   &trans   &trans   &trans   &trans
-                                       &trans        &trans        &trans         &trans   &trans   &trans
+&trans  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_CLR       &kp F1  &kp F2  &kp F3  &kp F4   &kp F5   &kp F6
+&trans  &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &rgb_ug RGB_SPI  &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
+&trans  &kp C_PREV       &kp C_PP         &kp C_NEXT       &kp C_VOL_DN     &kp C_VOL_UP     &trans  &trans  &trans  &trans   &trans   &trans
+                                          &trans           &trans           &trans           &trans  &trans  &trans
             >;
         };
-        extra1 {
-            status = "reserved";
-        };
-        extra2 {
-            status = "reserved";
-        };
-        extra3 {
-            status = "reserved";
-        };
-        extra4 {
-            status = "reserved";
-        };
 
+        extra1 { status = "reserved"; };
+
+        extra2 { status = "reserved"; };
+
+        extra3 { status = "reserved"; };
+
+        extra4 { status = "reserved"; };
     };
 };
