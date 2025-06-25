@@ -94,6 +94,66 @@
 
             label = "RGB_MOMENTARY_LAYER";
         };
+
+        rgblayer_fixed: rgb_layer_corrected {
+            compatible = "zmk,behavior-macro-two-param";
+            #binding-cells = <2>;
+            bindings = 
+                // Define cor usando apenas HUE (macro pega o 2º parâmetro)
+                <&macro_param_2to1>,
+                <&rgb_ug RGB_COLOR_HSB_CMD MACRO_PLACEHOLDER>,
+                
+                // Ativa layer momentânea (macro pega o 1º parâmetro)
+                <&macro_param_1to1>,
+                <&macro_press>,
+                <&mo MACRO_PLACEHOLDER>,
+                <&macro_pause_for_release>,
+                <&macro_release>,
+                <&mo MACRO_PLACEHOLDER>;
+            
+            label = "RGB_LAYER_FIXED";
+        };
+
+        rgblayer_hsb: rgb_layer_full_hsb {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings = 
+                // Cores fixas baseadas no parâmetro da layer
+                <&macro_param_1to1>,
+                <&macro_press>,
+                <&mo MACRO_PLACEHOLDER>,
+                <&macro_pause_for_release>,
+                <&macro_release>,
+                <&mo MACRO_PLACEHOLDER>;
+            
+            label = "RGB_LAYER_HSB";
+        };
+
+        layer1_pink: layer1_with_pink {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = 
+                <&rgb_ug RGB_COLOR_HSB(343,73,30)>,  // Sua cor rosa exata
+                <&macro_press>,
+                <&mo 1>,
+                <&macro_pause_for_release>,
+                <&macro_release>,
+                <&mo 1>;
+            label = "LAYER1_PINK";
+        };
+
+        layer2_orange: layer2_with_orange {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = 
+                <&rgb_ug RGB_COLOR_HSB(44,87,46)>,   // Sua cor laranja exata
+                <&macro_press>,
+                <&mo 2>,
+                <&macro_pause_for_release>,
+                <&macro_release>,
+                <&mo 2>;
+            label = "LAYER2_ORANGE";
+        };
     };
 
     combos {
