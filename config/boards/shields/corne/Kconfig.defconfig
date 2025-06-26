@@ -14,36 +14,58 @@ config ZMK_SPLIT
 	default y
 
 endif
+
 if SHIELD_CORNE_LEFT || SHIELD_CORNE_RIGHT
 
-config ZMK_SPLIT
-    default y
+config ZMK_KEYBOARD_NAME
+	default "Corne"
 
 if ZMK_DISPLAY
 
 config I2C
-    default y
+	default y
 
 config SSD1306
-    default y
+	default y
+
+if SSD1306
+
+config SSD1306_REVERSE_MODE
+	default y
+
+endif # SSD1306
+
+if LVGL_VDB_SIZE
+
+config LVGL_VDB_SIZE
+	default 64
+
+endif # LVGL_VDB_SIZE
+
+if LVGL_DPI
+
+config LVGL_DPI
+	default 148
+
+endif # LVGL_DPI
+
+if LVGL_BUF_SIZE
+
+config LVGL_BUF_SIZE
+	default 32
+
+endif # LVGL_BUF_SIZE
 
 endif # ZMK_DISPLAY
 
-if LVGL
+if ZMK_RGB_UNDERGLOW
 
-config LV_Z_VDB_SIZE
-    default 64
+config SPI
+	default y
 
-config LV_DPI_DEF
-    default 148
+config WS2812_STRIP
+	default y
 
-config LV_Z_BITS_PER_PIXEL
-    default 1
+endif # ZMK_RGB_UNDERGLOW
 
-choice LV_COLOR_DEPTH
-    default LV_COLOR_DEPTH_1
-endchoice
-
-endif # LVGL
-
-endif
+endif # SHIELD_CORNE_LEFT || SHIELD_CORNE_RIGHT
