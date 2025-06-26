@@ -127,6 +127,7 @@
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings =
+                <&rgb_ug RGB_EFF_OFF>,
                 <&rgb_ug RGB_COLOR_HSB(343,73,30)>,
                 <&macro_press>,
                 <&mo 1>,
@@ -141,6 +142,7 @@
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings =
+                <&rgb_ug RGB_EFF_OFF>,
                 <&rgb_ug RGB_COLOR_HSB(44,87,46)>,
                 <&macro_press>,
                 <&mo 2>,
