@@ -1,1 +1,50 @@
+if SHIELD_NICE_VIEW_ADAPTER
 
+config ZMK_DISPLAY
+	default y
+
+config I2C
+	default y
+
+config SSD1306
+	default y
+
+if SSD1306
+
+config SSD1306_REVERSE_MODE
+	default y
+
+endif # SSD1306
+
+if LVGL_VDB_SIZE
+
+config LVGL_VDB_SIZE
+	default 64
+
+endif # LVGL_VDB_SIZE
+
+if LVGL_DPI
+
+config LVGL_DPI
+	default 148
+
+endif # LVGL_DPI
+
+if LVGL_BUF_SIZE
+
+config LVGL_BUF_SIZE
+	default 32
+
+endif # LVGL_BUF_SIZE
+
+if ZMK_RGB_UNDERGLOW
+
+config SPI
+	default y
+
+config WS2812_STRIP
+	default y
+
+endif # ZMK_RGB_UNDERGLOW
+
+endif # SHIELD_NICE_VIEW_ADAPTER
