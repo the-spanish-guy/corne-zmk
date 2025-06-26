@@ -150,7 +150,6 @@
 
             label = "LAYER2_ORANGE";
         };
-
         visual_layer: visual_layer {
             compatible = "zmk,behavior-macro-four-param";
             #binding-cells = <4>;
@@ -171,7 +170,6 @@
                 <&rgb_ug RGB_EFF_PREV>;
             label = "VISUAL_LAYER";
         };
-
     };
 
     combos {
