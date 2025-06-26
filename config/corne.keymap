@@ -81,48 +81,6 @@
             label = "MOMENTARY_LAYER_WITH_RGB_SELECTION";
         };
 
-        rgblayer_v2: rgb_layer_v2 {
-            compatible = "zmk,behavior-macro-two-param";
-            #binding-cells = <2>;
-            bindings =
-                <&macro_param_2to2 &rgb_ug RGB_COLOR_HSB_CMD MACRO_PLACEHOLDER &macro_param_1to1>,
-                <&macro_press>,
-                <&mo MACRO_PLACEHOLDER>,
-                <&macro_pause_for_release>,
-                <&macro_release>,
-                <&mo MACRO_PLACEHOLDER>;
-
-            label = "RGB_MOMENTARY_LAYER";
-        };
-
-        rgblayer_fixed: rgb_layer_corrected {
-            compatible = "zmk,behavior-macro-two-param";
-            #binding-cells = <2>;
-            bindings =
-                <&macro_param_2to1 &rgb_ug MACRO_PLACEHOLDER MACRO_PLACEHOLDER &macro_param_1to1>,
-                <&macro_press>,
-                <&mo MACRO_PLACEHOLDER>,
-                <&macro_pause_for_release>,
-                <&macro_release>,
-                <&mo MACRO_PLACEHOLDER>;
-
-            label = "RGB_LAYER_FIXED";
-        };
-
-        rgblayer_hsb: rgb_layer_full_hsb {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            bindings =
-                <&macro_param_1to1>,
-                <&macro_press>,
-                <&mo MACRO_PLACEHOLDER>,
-                <&macro_pause_for_release>,
-                <&macro_release>,
-                <&mo MACRO_PLACEHOLDER>;
-
-            label = "RGB_LAYER_HSB";
-        };
-
         layer1_visual: layer1_visual {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
