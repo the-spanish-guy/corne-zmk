@@ -150,22 +150,18 @@
 
             label = "LAYER2_ORANGE";
         };
+
         visual_layer: visual_layer {
             compatible = "zmk,behavior-macro-two-param";
             #binding-cells = <2>;
-            bindings = 
-                <&macro_param_1to1>,
-                <&macro_param_2to2>,
-                <&rgb_ug RGB_EFF_NEXT>,      // Salva estado atual
-                <&rgb_ug RGB_EFF_PREV>,      // Restaura posição
-                <&rgb_ug RGB_COLOR_HSB_CMD MACRO_PLACEHOLDER MACRO_PLACEHOLDER>, // Aplica cor recebida
+            bindings =
+                <&macro_param_1to1 &macro_param_2to2 &rgb_ug MACRO_PLACEHOLDER MACRO_PLACEHOLDER &rgb_ug RGB_EFF_PREV &rgb_ug RGB_COLOR_HSB_CMD MACRO_PLACEHOLDER MACRO_PLACEHOLDER>,
                 <&macro_press>,
-                <&mo MACRO_PLACEHOLDER>,     // Ativa layer recebida
+                <&mo MACRO_PLACEHOLDER>,
                 <&macro_pause_for_release>,
                 <&macro_release>,
-                <&mo MACRO_PLACEHOLDER>,     // Desativa layer
-                <&rgb_ug RGB_EFF_NEXT>,      // Restaura estado anterior
-                <&rgb_ug RGB_EFF_PREV>;
+                <&mo MACRO_PLACEHOLDER &rgb_ug RGB_EFF_NEXT &rgb_ug RGB_EFF_PREV>;
+
             label = "VISUAL_LAYER";
         };
         visual_layer2: visual_layer {
