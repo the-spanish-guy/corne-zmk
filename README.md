@@ -1,5 +1,6 @@
 # Configuração ZMK para Corne Wireless
 
+
 Este é um fork personalizado da configuração ZMK para o teclado Corne Wireless, otimizado para uso em português e com várias melhorias de qualidade de vida.
 
 ## Sumário
