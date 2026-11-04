@@ -23,9 +23,9 @@ include:
   - board: nice_nano//zmk
     shield: settings_reset
 
-  # Desativado: nice!view (display sem uso no momento).
-  # - board: nice_nano//zmk
-  #   shield: corne_left nice_view_adapter nice_view_gem
-  #   snippet: studio-rpc-usb-uart
-  # - board: nice_nano//zmk
-  #   shield: corne_right nice_view_adapter nice_view_gem
+  # nice!view (módulo nice-view-gem). Não testado em hardware neste ZMK.
+  - board: nice_nano//zmk
+    shield: corne_left nice_view_adapter nice_view_gem
+    snippet: studio-rpc-usb-uart
+  - board: nice_nano//zmk
+    shield: corne_right nice_view_adapter nice_view_gem
