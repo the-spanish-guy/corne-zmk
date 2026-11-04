@@ -13,25 +13,43 @@
 #
 ---
 include:
-  # Display OLED com a tela padrão do ZMK (o módulo nice_oled travava o teclado,
-  # então ele não é mais usado). O ZMK Studio fica só no lado esquerdo (central).
+  # ---------------------------------------------------------------------
+  # BRANCH nice-oled-fix: tentar fazer o módulo nice_oled funcionar.
+  # Baseline conhecido: nice_oled (animações ligadas) TRAVA ~2 s após ligar.
+  # Hipótese: a pilha da thread do display ficou em 3072 (o módulo pede 4096 mas
+  # o valor não é aplicado) e o LVGL 9 estoura a pilha; o pool do LVGL (4096/8192)
+  # também pode ser pouco.
+  # Variantes (gravar o par L-x + R-x e ver se trava):
+  #   L/R-stack : pilha do display = 8192
+  #   L/R-pool  : pool do LVGL     = 16384
+  #   L/R-both  : os dois
+  # ---------------------------------------------------------------------
   - board: nice_nano//zmk
-    shield: corne_left
-    snippet: studio-rpc-usb-uart
+    shield: corne_left nice_oled
+    cmake-args: -DCONFIG_ZMK_DISPLAY_DEDICATED_THREAD_STACK_SIZE=8192
+    artifact-name: L-stack
   - board: nice_nano//zmk
-    shield: corne_right
+    shield: corne_right nice_oled
+    cmake-args: -DCONFIG_ZMK_DISPLAY_DEDICATED_THREAD_STACK_SIZE=8192
+    artifact-name: R-stack
+
+  - board: nice_nano//zmk
+    shield: corne_left nice_oled
+    cmake-args: -DCONFIG_LV_Z_MEM_POOL_SIZE=16384
+    artifact-name: L-pool
+  - board: nice_nano//zmk
+    shield: corne_right nice_oled
+    cmake-args: -DCONFIG_LV_Z_MEM_POOL_SIZE=16384
+    artifact-name: R-pool
+
+  - board: nice_nano//zmk
+    shield: corne_left nice_oled
+    cmake-args: -DCONFIG_ZMK_DISPLAY_DEDICATED_THREAD_STACK_SIZE=8192 -DCONFIG_LV_Z_MEM_POOL_SIZE=16384
+    artifact-name: L-both
+  - board: nice_nano//zmk
+    shield: corne_right nice_oled
+    cmake-args: -DCONFIG_ZMK_DISPLAY_DEDICATED_THREAD_STACK_SIZE=8192 -DCONFIG_LV_Z_MEM_POOL_SIZE=16384
+    artifact-name: R-both
+
   - board: nice_nano//zmk
     shield: settings_reset
-
-  # Desativado: o módulo nice_oled travava o teclado ~2 s após ligar.
-  # - board: nice_nano//zmk
-  #   shield: corne_left nice_oled
-  #   snippet: studio-rpc-usb-uart
-  # - board: nice_nano//zmk
-  #   shield: corne_right nice_oled
-  # Desativado: nice!view (display sem uso no momento).
-  # - board: nice_nano//zmk
-  #   shield: corne_left nice_view_adapter nice_view_gem
-  #   snippet: studio-rpc-usb-uart
-  # - board: nice_nano//zmk
-  #   shield: corne_right nice_view_adapter nice_view_gem
