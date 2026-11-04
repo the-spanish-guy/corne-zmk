@@ -4,10 +4,8 @@ manifest:
       url-base: https://github.com/zmkfirmware
     - name: petejohanson
       url-base: https://github.com/petejohanson
-    - name: gpeye
-      url-base: https://github.com/GPeye
-    - name: mctechnology17
-      url-base: https://github.com/mctechnology17
+    - name: tokyo2006
+      url-base: https://github.com/tokyo2006
     - name: kevinpastor
       url-base: https://github.com/kevinpastor
     - name: m165437
@@ -21,12 +19,9 @@ manifest:
       remote: zmkfirmware
       revision: main
       import: app/west.yml
-    - name: hammerbeam-slideshow
-      remote: gpeye
-      revision: main
     - name: zmk-nice-oled
-      remote: mctechnology17
-      revision: main
+      remote: tokyo2006
+      revision: 60b9a3aa1b15a51813efec14cc2c4a8ddd7beafe
     - name: nice-view-elemental
       remote: kevinpastor
       revision: main
