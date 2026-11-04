@@ -14,35 +14,27 @@
 ---
 include:
   # ---------------------------------------------------------------------
-  # BISSECÇÃO (temporária). O firmware mínimo (sem display/Studio/RGB) funciona.
-  # Teste 1 (Studio):  gravar  L-studio  no esquerdo + R-min  no direito.
-  # Teste 2 (display): gravar  L-oled    no esquerdo + R-oled no direito.
+  # BISSECÇÃO (temporária).
+  # Resultados até aqui:
+  #   - mínimo (sem display/Studio/RGB):  FUNCIONA
+  #   - + ZMK Studio (L-studio + R-min):  FUNCIONA
+  #   - + display nice_oled (L/R-oled):   TRAVA ~2 s após ligar
+  # Teste 3: display com a tela PADRÃO do ZMK (sem o módulo nice_oled).
+  #   Gravar L-builtin no esquerdo e R-builtin no direito.
   # ---------------------------------------------------------------------
-
-  # Direito mínimo (sem display, sem Studio, sem RGB)
-  - board: nice_nano//zmk
-    shield: corne_right
-    artifact-name: R-min
-
-  # Esquerdo + ZMK Studio (sem display)
   - board: nice_nano//zmk
     shield: corne_left
-    snippet: studio-rpc-usb-uart
-    cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_STUDIO_LOCKING=n -DCONFIG_ZMK_STUDIO_LOCK_ON_DISCONNECT=n
-    artifact-name: L-studio
-
-  # Esquerdo e direito + display nice_oled (sem Studio)
+    cmake-args: -DCONFIG_ZMK_DISPLAY=y -DCONFIG_I2C=y -DCONFIG_SSD1306=y
+    artifact-name: L-builtin
   - board: nice_nano//zmk
-    shield: corne_left nice_oled
-    artifact-name: L-oled
-  - board: nice_nano//zmk
-    shield: corne_right nice_oled
-    artifact-name: R-oled
+    shield: corne_right
+    cmake-args: -DCONFIG_ZMK_DISPLAY=y -DCONFIG_I2C=y -DCONFIG_SSD1306=y
+    artifact-name: R-builtin
 
   - board: nice_nano//zmk
     shield: settings_reset
 
-  # Entradas originais (restaurar depois):
+  # Entradas anteriores / originais (restaurar depois):
   # - board: nice_nano//zmk
   #   shield: corne_left nice_oled
   #   snippet: studio-rpc-usb-uart
