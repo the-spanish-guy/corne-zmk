@@ -15,7 +15,8 @@
 include:
   - board: nice_nano//zmk
     shield: corne_left nice_oled
-    snippet: studio-rpc-usb-uart
+    # TEMPORÁRIO: zmk-usb-logging para depurar o travamento (remover depois)
+    snippet: studio-rpc-usb-uart zmk-usb-logging
   - board: nice_nano//zmk
     shield: corne_right nice_oled
   
