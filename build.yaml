@@ -13,17 +13,22 @@
 #
 ---
 include:
+  # TESTE MÍNIMO (temporário): só corne_left / corne_right, sem display, sem Studio, sem RGB.
+  # As entradas originais (nice_oled e nice_view_gem) estão logo abaixo, comentadas.
   - board: nice_nano//zmk
-    shield: corne_left nice_oled
-    # TEMPORÁRIO: zmk-usb-logging para depurar o travamento (remover depois)
-    snippet: studio-rpc-usb-uart zmk-usb-logging
+    shield: corne_left
   - board: nice_nano//zmk
-    shield: corne_right nice_oled
-  
-  - board: nice_nano//zmk
-    shield: corne_left nice_view_adapter nice_view_gem
-    snippet: studio-rpc-usb-uart
-  - board: nice_nano//zmk
-    shield: corne_right nice_view_adapter nice_view_gem
+    shield: corne_right
   - board: nice_nano//zmk
     shield: settings_reset
+
+  # - board: nice_nano//zmk
+  #   shield: corne_left nice_oled
+  #   snippet: studio-rpc-usb-uart zmk-usb-logging
+  # - board: nice_nano//zmk
+  #   shield: corne_right nice_oled
+  # - board: nice_nano//zmk
+  #   shield: corne_left nice_view_adapter nice_view_gem
+  #   snippet: studio-rpc-usb-uart
+  # - board: nice_nano//zmk
+  #   shield: corne_right nice_view_adapter nice_view_gem
