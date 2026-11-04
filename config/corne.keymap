@@ -173,6 +173,11 @@
             key-positions = <3 15>;  // E + D
             timeout-ms = <50>;
         };
+
+        acento-a {
+            bindings = <&td_a>;
+            key-positions = <13 14>;
+        };
     };
 
     keymap {
