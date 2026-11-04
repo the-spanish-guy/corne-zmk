@@ -13,33 +13,23 @@
 #
 ---
 include:
-  # ---------------------------------------------------------------------
-  # BISSECÇÃO (temporária).
-  # Resultados até aqui:
-  #   - mínimo (sem display/Studio/RGB):  FUNCIONA
-  #   - + ZMK Studio (L-studio + R-min):  FUNCIONA
-  #   - + display nice_oled (L/R-oled):   TRAVA ~2 s após ligar
-  # Teste 3: display com a tela PADRÃO do ZMK (sem o módulo nice_oled).
-  #   Gravar L-builtin no esquerdo e R-builtin no direito.
-  # ---------------------------------------------------------------------
+  # Display OLED com a tela padrão do ZMK (o módulo nice_oled travava o teclado,
+  # então ele não é mais usado). O ZMK Studio fica só no lado esquerdo (central).
   - board: nice_nano//zmk
     shield: corne_left
-    cmake-args: -DCONFIG_ZMK_DISPLAY=y -DCONFIG_I2C=y -DCONFIG_SSD1306=y
-    artifact-name: L-builtin
+    snippet: studio-rpc-usb-uart
   - board: nice_nano//zmk
     shield: corne_right
-    cmake-args: -DCONFIG_ZMK_DISPLAY=y -DCONFIG_I2C=y -DCONFIG_SSD1306=y
-    artifact-name: R-builtin
-
   - board: nice_nano//zmk
     shield: settings_reset
 
-  # Entradas anteriores / originais (restaurar depois):
+  # Desativado: o módulo nice_oled travava o teclado ~2 s após ligar.
   # - board: nice_nano//zmk
   #   shield: corne_left nice_oled
   #   snippet: studio-rpc-usb-uart
   # - board: nice_nano//zmk
   #   shield: corne_right nice_oled
+  # Desativado: nice!view (display sem uso no momento).
   # - board: nice_nano//zmk
   #   shield: corne_left nice_view_adapter nice_view_gem
   #   snippet: studio-rpc-usb-uart
