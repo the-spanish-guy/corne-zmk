@@ -6,6 +6,8 @@ manifest:
       url-base: https://github.com/petejohanson
     - name: tokyo2006
       url-base: https://github.com/tokyo2006
+    - name: gudzpoz
+      url-base: https://github.com/gudzpoz
     - name: kevinpastor
       url-base: https://github.com/kevinpastor
     - name: m165437
@@ -22,6 +24,9 @@ manifest:
     - name: zmk-nice-oled
       remote: tokyo2006
       revision: 60b9a3aa1b15a51813efec14cc2c4a8ddd7beafe
+    - name: zmk-rgb-matrix
+      remote: gudzpoz
+      revision: 3f1ce9b9869297cbbbac226d46bd16af9f20100c
     - name: nice-view-elemental
       remote: kevinpastor
       revision: main

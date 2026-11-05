@@ -25,3 +25,32 @@
         compatible = "zmk,battery-nrf-vddh";
     };
 };
+
+#include <dt-bindings/keypaw/rgb_matrix.h>
+
+/ {
+    /* Mapa da cadeia de LEDs desta metade. É uma PROPOSTA baseada no QMK
+       (crkbd/rev1), ainda não confirmada no teclado. Veja o README. */
+    rgb_matrix: rgb {
+        compatible = "keypaw,rgb-matrix";
+        #binding-cells = <2>;
+        strip = <&led_strip>;
+        physical-layout = <&layout_0>;
+        mapping = <
+        /* Seis LEDs de underglow (os grandes). As coordenadas são aproximadas: cada um
+           fica logo abaixo da tecla indicada. Ordem: abaixo de LED12, LED10, LED8,
+           LED14, LED22 e LED24 (números gravados na placa). */
+        KP_RGB_NO_KEY(550, 145)
+        KP_RGB_NO_KEY(350, 100)
+        KP_RGB_NO_KEY(150, 205)
+        KP_RGB_NO_KEY(150, 305)
+        KP_RGB_NO_KEY(350, 300)
+        KP_RGB_NO_KEY(550, 345)
+
+        /* 21 LEDs por tecla, na ordem da cadeia (posições de tecla do keymap) */
+        38 29 17 5 4 16 28 37 36 27 15 3 2 14 26 25 13 1 0 12 24
+        >;
+    };
+};
+
+#include "corne-rgb-effects.dtsi"

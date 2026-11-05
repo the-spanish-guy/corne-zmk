@@ -1,0 +1,58 @@
+/*
+ * Efeitos de RGB (módulo zmk-rgb-matrix), compartilhados pelas duas metades.
+ *
+ * IMPORTANTE: as duas metades precisam ter EXATAMENTE os mesmos efeitos, na mesma
+ * ordem. Por isso esta lista fica num arquivo só, incluído por corne_left.overlay e
+ * corne_right.overlay. Se você acrescentar, tirar ou reordenar um efeito, as metades
+ * saem de sincronia.
+ *
+ * Para trocar de efeito no teclado, use a layer 3 (tecla "RGB EFE").
+ */
+
+&rgb_matrix {
+    initial-on;
+    /* Teto de brilho em %. O brilho real é este valor vezes o brilho atual (abaixo). */
+    max-brightness = <60>;
+    initial-brightness = <30>;
+    /* idle-brightness fica no padrão (0): os LEDs apagam quando o teclado fica ocioso. */
+
+    zone: zone {
+        compatible = "keypaw,rgb-overlay";
+        controllable;
+        #binding-cells = <2>;
+        all-leds;
+        initial-effect = <0>;
+
+        /* 0: só a tecla apertada acende e apaga devagar (o resto fica apagado) */
+        fx_reactive: fx_reactive {
+            compatible = "keypaw,rgb-matrix-reactive";
+            color = <0x00FFFF>;
+            duration = <1500>;
+            spread = "disc";
+            spread-radius = <150>;
+            background-brightness = <0>;
+            multi;
+        };
+
+        /* 1: ondas que se espalham a partir de cada tecla apertada */
+        fx_ripple: fx_ripple {
+            compatible = "keypaw,rgb-matrix-ripple";
+            color = <0x00FFFF>;
+            background-brightness = <0>;
+        };
+
+        /* 2: mapa de calor das teclas que você mais aperta */
+        fx_heatmap: fx_heatmap {
+            compatible = "keypaw,rgb-matrix-heatmap";
+        };
+
+        /* 3: arco-íris que se move pelo teclado (parecido com o antigo "swirl") */
+        fx_rainbow: fx_rainbow {
+            compatible = "keypaw,rgb-matrix-rainbow";
+            duration = <4000>;
+            basis = "x";
+            direction = "out";
+            palette = "rainbow";
+        };
+    };
+};
