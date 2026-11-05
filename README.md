@@ -9,6 +9,7 @@ A configuração do meu Corne sem fio (split, 3x6 + 3 teclas de polegar), feita 
 - [Combos e atalhos](#combos-e-atalhos)
 - [Escrevendo em português](#escrevendo-em-português)
 - [Animações do OLED](#animações-do-oled)
+- [Efeitos de RGB](#efeitos-de-rgb)
 - [Mapa dos LEDs RGB](#mapa-dos-leds-rgb)
 - [Bateria](#bateria)
 - [Mudando a configuração](#mudando-a-configuração)
@@ -132,7 +133,7 @@ Nos polegares:
 ```
 
 - `BT 1` a `BT 4` escolhem com qual aparelho o teclado fala (4 perfis). `BT CLR` apaga o pareamento do perfil atual.
-- `RGB LIG` liga e desliga o RGB, `RGB EFE` troca o efeito, `RGB BRI` e `RGB BRD` aumentam e diminuem o brilho, `RGB VEL` muda a velocidade.
+- `RGB LIG` liga e desliga o RGB, `RGB EFE` passa para o próximo efeito (veja os [efeitos](#efeitos-de-rgb)), `RGB BRI` e `RGB BRD` aumentam e diminuem o brilho, `RGB VEL` muda a velocidade do efeito atual.
 
 ## Combos e atalhos
 
@@ -231,6 +232,35 @@ Cada uma tem uma opção irmã terminada em `_ANIMATION_MS` para ajustar a veloc
 
 > Hoje o display está configurado para **apagar** no idle. Se você ligar a arte de descanso, ela só aparece se o display não estiver apagando, então talvez seja preciso desligar `CONFIG_ZMK_DISPLAY_BLANK_ON_IDLE`. Eu não testei essa combinação.
 
+## Efeitos de RGB
+
+O RGB é controlado pelo módulo [zmk-rgb-matrix](https://github.com/gudzpoz/zmk-rgb-matrix), que permite efeitos que **reagem às teclas** (o ZMK sozinho não tem isso). Os 4 efeitos abaixo ficam no `config/boards/shields/corne/corne-rgb-effects.dtsi`. Para trocar de um para o outro, use `RGB EFE` na layer 3. Ao ligar, o teclado começa no primeiro.
+
+| # | Efeito | O que faz |
+|---|---|---|
+| 0 | **Reativo** (padrão) | Só a tecla que você apertou acende, em ciano, e vai apagando devagar (uns 1,5 s). O resto fica apagado. Várias teclas ao mesmo tempo acendem juntas |
+| 1 | **Ondas** (ripple) | Cada tecla apertada solta uma onda que se espalha pelas teclas vizinhas |
+| 2 | **Mapa de calor** (heatmap) | As teclas que você mais aperta ficam "mais quentes" (mudam de cor com o uso) |
+| 3 | **Arco-íris** | Um arco-íris que se move pelo teclado, parecido com o antigo swirl |
+
+O RGB **apaga sozinho no idle** (2 minutos parado) e volta quando você digita de novo.
+
+### Mudando os efeitos
+
+No `corne-rgb-effects.dtsi`:
+
+```
+max-brightness = <60>;        # teto de brilho (%)
+initial-brightness = <30>;    # brilho ao ligar (% do teto)
+initial-effect = <0>;         # efeito ao ligar (0 a 3)
+color = <0x00FFFF>;           # cor do reativo e das ondas (RGB em hexadecimal)
+duration = <1500>;            # quanto tempo o reativo leva para apagar (ms)
+```
+
+**Cuidado:** as duas metades precisam ter exatamente os mesmos efeitos, na mesma ordem. Por isso a lista fica num arquivo só, usado pelas duas. Se você acrescentar, tirar ou reordenar efeitos, mexa sempre nesse arquivo (nunca só em uma das metades).
+
+Esse módulo traz outros efeitos além destes quatro. Os que estão no projeto foram escolhidos por serem os mais úteis; veja a documentação do módulo para a lista completa.
+
 ## Mapa dos LEDs RGB
 
 Cada metade tem **27 LEDs** ligados em uma só fita: **21 pequenos** (um por tecla) e **6 grandes** de underglow, que ficam na parte de baixo da placa. A placa é a PandaKB Corne V3 (Corne Cherry v3.0.1, do foostan).
@@ -255,9 +285,9 @@ Nos polegares, o `LED27` fica sob a tecla do **Enter** (polegar de dentro, lado 
 
 Os números seguem a **ordem de leitura da placa** (linha por linha, da borda externa para a interna), e **não** a ordem em que os LEDs estão ligados entre si. Por isso eles servem para você achar um LED na placa, mas não para saber qual acende primeiro.
 
-### Ordem da cadeia (proposta, ainda não confirmada no teclado)
+### Ordem da cadeia (confirmada no teclado)
 
-Os LEDs de cada metade formam uma fila: o dado entra no primeiro, passa para o segundo, e assim por diante. A ordem abaixo vem do mapa oficial dessa placa no QMK (`crkbd/rev1`), e as 6 posições dos LEDs grandes batem com as do QMK nas duas metades. Mas **eu não medi a ordem no teclado**, então trate como uma boa hipótese. O número em cada tecla é a posição dela na fila (de 0 a 26), e `gN` é o LED grande de underglow que fica abaixo dela (também de 0 a 5):
+Os LEDs de cada metade formam uma fila: o dado entra no primeiro, passa para o segundo, e assim por diante. A ordem abaixo vem do mapa oficial dessa placa no QMK (`crkbd/rev1`) e foi **conferida no teclado**: com o efeito reativo, cada tecla acende o próprio LED. O número em cada tecla é a posição dela na fila (de 0 a 26), e `gN` é o LED grande de underglow que fica abaixo dela (também de 0 a 5):
 
 ```
 ,-------+-------+-------+-------+-------+-------.     ,-------+-------+-------+-------+-------+-------.
@@ -280,7 +310,7 @@ Em termos de teclas do keymap (posições de 0 a 41), a fila dos LEDs pequenos, 
 | Esquerda | `38 29 17 5 4 16 28 37 36 27 15 3 2 14 26 25 13 1 0 12 24` |
 | Direita | `39 30 18 6 7 19 31 40 41 32 20 8 9 21 33 34 22 10 11 23 35` |
 
-> Isso só será usado se um dia o teclado ganhar um efeito de RGB que reaja às teclas (hoje o ZMK só tem os efeitos básicos de underglow). Se você for mexer nos LEDs, confirme a ordem na prática antes de confiar nesta tabela.
+Essa ordem está nos arquivos `corne_left.overlay` e `corne_right.overlay` (nó `rgb_matrix`, campo `mapping`). Os 6 primeiros itens são os LEDs grandes, que não têm tecla, e só a posição deles (aproximada, logo abaixo da tecla) foi estimada.
 
 ## Bateria
 
@@ -300,7 +330,8 @@ Em termos de teclas do keymap (posições de 0 a 41), a fila dos LEDs pequenos, 
 | `config/boards/shields/corne/corne_left.conf` | Só do lado esquerdo (ZMK Studio) |
 | `config/boards/shields/corne/corne_right.conf` | Só do lado direito (hoje vazio) |
 | `build.yaml` | Quais firmwares a Action compila (OLED, nice!view e o de limpeza) |
-| `config/west.yml` | Versão do ZMK e dos módulos de tela |
+| `config/west.yml` | Versão do ZMK e dos módulos (telas e RGB) |
+| `config/boards/shields/corne/corne-rgb-effects.dtsi` | Efeitos e brilho do RGB (compartilhado pelas duas metades) |
 | `config/boards/shields/corne/` | A descrição do hardware do Corne (pinos, matriz, LEDs, OLED) |
 
 **Fluxo normal:** mude o arquivo, dê commit e push, espere a Action ficar verde e baixe o firmware.
@@ -309,12 +340,7 @@ A Action roda sozinha quando algo dentro da pasta `config/` muda. Se você mudar
 
 ### Opções que você provavelmente vai querer mexer
 
-**Brilho do RGB** (no `corne.conf`):
-```
-CONFIG_ZMK_RGB_UNDERGLOW_BRT_START=30   # brilho ao ligar (%)
-CONFIG_ZMK_RGB_UNDERGLOW_BRT_MAX=60     # brilho máximo (%)
-CONFIG_ZMK_RGB_UNDERGLOW_EFF_START=3    # efeito ao ligar
-```
+**Brilho e efeitos do RGB:** ficam no `config/boards/shields/corne/corne-rgb-effects.dtsi` (veja [Efeitos de RGB](#efeitos-de-rgb)), e não mais no `corne.conf`.
 
 **Tempo de idle e sleep** (em milissegundos):
 ```
@@ -351,6 +377,7 @@ Abra a execução com o X vermelho, clique no job que falhou e leia a última pa
 - [Corne Keyboard, foostan/crkbd](https://github.com/foostan/crkbd)
 - Config base: [ZMK Config](https://github.com/zmkfirmware/zmk-config)
 - Telas OLED: [zmk-nice-oled](https://github.com/mctechnology17/zmk-nice-oled), com a migração para o ZMK atual feita em [tokyo2006/zmk-nice-oled](https://github.com/tokyo2006/zmk-nice-oled)
+- RGB reativo: [gudzpoz/zmk-rgb-matrix](https://github.com/gudzpoz/zmk-rgb-matrix)
 - Tela nice!view: [nice-view-gem](https://github.com/M165437/nice-view-gem)
 
 ---
