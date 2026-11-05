@@ -8,6 +8,7 @@ A configuração do meu Corne sem fio (split, 3x6 + 3 teclas de polegar), feita 
 - [Layers e layout](#layers-e-layout)
 - [Combos e atalhos](#combos-e-atalhos)
 - [Escrevendo em português](#escrevendo-em-português)
+- [Animações do OLED](#animações-do-oled)
 - [Bateria](#bateria)
 - [Mudando a configuração](#mudando-a-configuração)
 - [Se algo der errado](#se-algo-der-errado)
@@ -154,11 +155,80 @@ Um **combo** é apertar duas teclas ao mesmo tempo para fazer outra coisa. Aqui,
 
 ## Escrevendo em português
 
-**Acentos com toque repetido (tap dance):** no `A` e no `E`, tocar uma, duas ou três vezes seguidas dá versões diferentes da letra. O segundo toque usa a tecla **AltGr** e o terceiro usa **AltGr com Shift**, então o que aparece depende do layout do teclado do seu sistema (por exemplo, "US Internacional"). Se não sair o acento que você espera, ajuste o layout do sistema.
+**Acentos com toque repetido (tap dance):** o `A` tem um "tap dance": tocar uma, duas ou três vezes seguidas dá versões diferentes da letra. Hoje ele é acionado pelo combo `A` + `S` (veja a tabela de combos). O segundo toque usa a tecla **AltGr** e o terceiro usa **AltGr com Shift**, então o que aparece depende do layout do teclado do seu sistema (por exemplo, "US Internacional"). Se não sair o acento que você espera, ajuste o layout do sistema. Existe também um tap dance para o `E`, mas ele ainda não está ligado a nenhuma tecla.
 
 **Macro `cao`:** digita as teclas C, A, O e um til por AltGr. Também depende do layout do sistema.
 
 O `ç` tem um combo próprio: aperte `E` e `D` juntos.
+
+## Animações do OLED
+
+As telas OLED mostram um painel com status (conexão, bateria, layer) e uma animação. As animações vêm do módulo [zmk-nice-oled](https://github.com/mctechnology17/zmk-nice-oled), e cada uma se liga ou desliga com uma linha no `config/corne.conf`. Todas as opções já estão lá, **comentadas** (com `#` na frente) e com uma explicação. Para usar uma, tire o `#` da linha.
+
+**O que aparece hoje, sem mexer em nada:**
+- **Lado esquerdo:** o Bongo Cat, um gato que bate nas teclas. Ele só anima enquanto você digita.
+- **Lado direito:** um gato que fica animado o tempo todo.
+
+**Para trocar:**
+1. Abra o `config/corne.conf` e procure a seção "Animações do OLED".
+2. Tire o `#` da linha da animação que quiser. Se for trocar a que já está ligada, **desligue a antiga** escrevendo `=n` nela (por exemplo, `CONFIG_NICE_OLED_WIDGET_ANIMATION_PERIPHERAL_CAT=n`).
+3. Dê commit e push, espere a Action e grave **os dois lados** (veja [Como instalar o firmware](#como-instalar-o-firmware)).
+
+> Eu não testei cada animação no teclado, então os nomes abaixo vêm da documentação do módulo. Teste uma de cada vez. E se o teclado travar depois de ligar uma animação nova, veja a seção [Se algo der errado](#se-algo-der-errado): o display precisa de memória suficiente.
+
+### Lado direito: animação que roda sozinha
+
+| Opção | O que faz |
+|---|---|
+| `CONFIG_NICE_OLED_WIDGET_ANIMATION_PERIPHERAL` | Liga a animação no lado direito (já vem ligada) |
+| `CONFIG_NICE_OLED_WIDGET_ANIMATION_PERIPHERAL_CAT` | Gato (já vem ligado) |
+| `CONFIG_NICE_OLED_WIDGET_ANIMATION_PERIPHERAL_GEM` | Gema |
+| `CONFIG_NICE_OLED_WIDGET_ANIMATION_PERIPHERAL_HEAD` | Cabeça |
+| `CONFIG_NICE_OLED_WIDGET_ANIMATION_PERIPHERAL_POKEMON` | Pokémon |
+| `CONFIG_NICE_OLED_WIDGET_ANIMATION_PERIPHERAL_SPACEMAN` | Astronauta |
+| `CONFIG_NICE_OLED_WIDGET_ANIMATION_PERIPHERAL_SMART_BATTERY` | Animação de bateria inteligente |
+| `CONFIG_NICE_OLED_WIDGET_ANIMATION_PERIPHERAL_MS` | Quanto tempo dura cada volta da animação, em milissegundos |
+
+### Lado direito: imagem parada (sem animação)
+
+Para usar uma imagem fixa, desligue a animação (`..._ANIMATION_PERIPHERAL=n`) e escolha uma:
+
+| Opção | O que faz |
+|---|---|
+| `CONFIG_NICE_OLED_WIDGET_STATIC_IMAGE_PERIPHERAL` | Mostra uma imagem fixa (vem ligada quando não há animação) |
+| `CONFIG_NICE_OLED_WIDGET_STATIC_IMAGE_PERIPHERAL_VIM` | Imagem do Vim |
+| `CONFIG_NICE_OLED_WIDGET_STATIC_IMAGE_PERIPHERAL_VIP_MARCOS` | Imagem alternativa (`vim_marcos`) |
+
+### Lado esquerdo: animações que reagem a você
+
+| Opção | O que faz |
+|---|---|
+| `CONFIG_NICE_OLED_WIDGET_WPM_BONGO_CAT` | Bongo Cat, anima enquanto você digita (já vem ligado) |
+| `CONFIG_NICE_OLED_WIDGET_WPM_BONGO_CAT_ANIMATION_MS` | Velocidade do Bongo Cat |
+| `CONFIG_NICE_OLED_WIDGET_WPM_LUNA` | Luna, o cachorro, que corre conforme a sua velocidade de digitação (vem desligada; para usar, desligue o Bongo Cat) |
+| `CONFIG_NICE_OLED_WIDGET_WPM_LUNA_ANIMATION_MS` | Velocidade da Luna |
+| `CONFIG_NICE_OLED_WIDGET_RESPONSIVE` e `..._RESPONSIVE_BONGO_CAT` | Bongo Cat que reage a cada tecla. Usa mais processamento do teclado |
+
+### Animações nos indicadores
+
+| Opção | O que faz |
+|---|---|
+| `CONFIG_NICE_OLED_WIDGET_HID_INDICATORS_LUNA` | Luna aparece quando o Caps Lock está ligado |
+| `CONFIG_NICE_OLED_WIDGET_HID_INDICATORS_BONGO_CAT` | Bongo Cat aparece quando o Caps Lock está ligado |
+| `CONFIG_NICE_OLED_WIDGET_MODIFIERS_INDICATORS_LUNA` | Luna reage a Shift, Ctrl e companhia |
+| `CONFIG_NICE_OLED_WIDGET_MODIFIERS_INDICATORS_BONGO_CAT` | Bongo Cat reage a Shift, Ctrl e companhia |
+
+Cada uma tem uma opção irmã terminada em `_ANIMATION_MS` para ajustar a velocidade.
+
+### Tela de descanso
+
+| Opção | O que faz |
+|---|---|
+| `CONFIG_NICE_OLED_SHOW_SLEEP_ART_ON_IDLE` | Mostra uma arte quando o teclado fica ocioso |
+| `CONFIG_NICE_OLED_SHOW_SLEEP_ART_ON_SLEEP` | Mostra uma arte quando o teclado entra em deep sleep |
+| `CONFIG_NICE_OLED_SLEEP_STATUS_BOOTLOADER` | Mostra por um instante uma imagem de bootloader ao acordar |
+
+> Hoje o display está configurado para **apagar** no idle. Se você ligar a arte de descanso, ela só aparece se o display não estiver apagando, então talvez seja preciso desligar `CONFIG_ZMK_DISPLAY_BLANK_ON_IDLE`. Eu não testei essa combinação.
 
 ## Bateria
 
