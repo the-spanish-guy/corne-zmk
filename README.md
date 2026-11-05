@@ -9,6 +9,7 @@ A configuração do meu Corne sem fio (split, 3x6 + 3 teclas de polegar), feita 
 - [Combos e atalhos](#combos-e-atalhos)
 - [Escrevendo em português](#escrevendo-em-português)
 - [Animações do OLED](#animações-do-oled)
+- [Mapa dos LEDs RGB](#mapa-dos-leds-rgb)
 - [Bateria](#bateria)
 - [Mudando a configuração](#mudando-a-configuração)
 - [Se algo der errado](#se-algo-der-errado)
@@ -20,7 +21,7 @@ A configuração do meu Corne sem fio (split, 3x6 + 3 teclas de polegar), feita 
 - Teclado: Corne sem fio, com duas metades que se falam por Bluetooth
 - Controladores: Nice!Nano v2 (um em cada metade)
 - Telas: OLED de 128x32 nas duas metades. O nice!view também está no projeto, mas ainda **não foi testado** nesta versão do ZMK
-- LEDs RGB: um por tecla, mais alguns de underglow, todos na mesma fita
+- LEDs RGB: em cada metade, 21 por tecla e 6 de underglow, todos na mesma fita (veja o [mapa dos LEDs](#mapa-dos-leds-rgb))
 - Baterias: uma 18650 de 3450 mAh em cada lado
 
 **Software**
@@ -229,6 +230,57 @@ Cada uma tem uma opção irmã terminada em `_ANIMATION_MS` para ajustar a veloc
 | `CONFIG_NICE_OLED_SLEEP_STATUS_BOOTLOADER` | Mostra por um instante uma imagem de bootloader ao acordar |
 
 > Hoje o display está configurado para **apagar** no idle. Se você ligar a arte de descanso, ela só aparece se o display não estiver apagando, então talvez seja preciso desligar `CONFIG_ZMK_DISPLAY_BLANK_ON_IDLE`. Eu não testei essa combinação.
+
+## Mapa dos LEDs RGB
+
+Cada metade tem **27 LEDs** ligados em uma só fita: **21 pequenos** (um por tecla) e **6 grandes** de underglow, que ficam na parte de baixo da placa. A placa é a PandaKB Corne V3 (Corne Cherry v3.0.1, do foostan).
+
+### Números gravados na placa
+
+O desenho abaixo mostra o número que está impresso na placa ao lado de cada tecla (o `LEDn`). Um `+` quer dizer que, logo abaixo daquele LED pequeno, existe também um **LED grande** de underglow. Os LEDs grandes não têm um número legível nas fotos.
+
+```
+,-------+-------+-------+-------+-------+-------.     ,-------+-------+-------+-------+-------+-------.
+| LED7  | LED8+ | LED9  | LED10+| LED11 | LED12+|     | LED39+| LED38 | LED37+| LED36 | LED35+| LED34 |
+|-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
+| LED13 | LED14+| LED15 | LED16 | LED17 | LED18 |     | LED45 | LED44 | LED43 | LED42 | LED41+| LED40 |
+|-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
+| LED19 | LED20 | LED21 | LED22+| LED23 | LED24+|     | LED51+| LED50 | LED49+| LED48 | LED47 | LED46 |
+`-------+-------+-------+-------+-------+-------'     `-------+-------+-------+-------+-------+-------'
+                        | LED25 | LED26 | LED27 |     | LED54 | LED53 | LED52 |
+                        `-----------------------'     `-----------------------'
+```
+
+Nos polegares, o `LED27` fica sob a tecla do **Enter** (polegar de dentro, lado esquerdo) e o `LED54` sob a tecla do **Espaço** (polegar de dentro, lado direito).
+
+Os números seguem a **ordem de leitura da placa** (linha por linha, da borda externa para a interna), e **não** a ordem em que os LEDs estão ligados entre si. Por isso eles servem para você achar um LED na placa, mas não para saber qual acende primeiro.
+
+### Ordem da cadeia (proposta, ainda não confirmada no teclado)
+
+Os LEDs de cada metade formam uma fila: o dado entra no primeiro, passa para o segundo, e assim por diante. A ordem abaixo vem do mapa oficial dessa placa no QMK (`crkbd/rev1`), e as 6 posições dos LEDs grandes batem com as do QMK nas duas metades. Mas **eu não medi a ordem no teclado**, então trate como uma boa hipótese. O número em cada tecla é a posição dela na fila (de 0 a 26), e `gN` é o LED grande de underglow que fica abaixo dela (também de 0 a 5):
+
+```
+,-------+-------+-------+-------+-------+-------.     ,-------+-------+-------+-------+-------+-------.
+| 24    | 23 g2 | 18    | 17 g1 | 10    | 9  g0 |     | 9  g0 | 10    | 17 g1 | 18    | 23 g2 | 24    |
+|-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
+| 25    | 22 g3 | 19    | 16    | 11    | 8     |     | 8     | 11    | 16    | 19    | 22 g3 | 25    |
+|-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
+| 26    | 21    | 20    | 15 g4 | 12    | 7  g5 |     | 7  g5 | 12    | 15 g4 | 20    | 21    | 26    |
+`-------+-------+-------+-------+-------+-------'     `-------+-------+-------+-------+-------+-------'
+                        | 14    | 13    | 6     |     | 6     | 13    | 14    |
+                        `-----------------------'     `-----------------------'
+```
+
+Lendo o desenho: os 6 LEDs grandes (`g0` a `g5`) vêm primeiro na fila, e depois os 21 pequenos, num caminho em zigue-zague. A fila começa no polegar de dentro (`6`), **sobe** pela coluna de dentro, **desce** pela coluna seguinte, e assim vai até a coluna do dedo mínimo. As duas metades seguem a mesma lógica, espelhadas.
+
+Em termos de teclas do keymap (posições de 0 a 41), a fila dos LEDs pequenos, do 6º ao 27º, é:
+
+| Metade | Posição das teclas, na ordem da fila |
+|---|---|
+| Esquerda | `38 29 17 5 4 16 28 37 36 27 15 3 2 14 26 25 13 1 0 12 24` |
+| Direita | `39 30 18 6 7 19 31 40 41 32 20 8 9 21 33 34 22 10 11 23 35` |
+
+> Isso só será usado se um dia o teclado ganhar um efeito de RGB que reaja às teclas (hoje o ZMK só tem os efeitos básicos de underglow). Se você for mexer nos LEDs, confirme a ordem na prática antes de confiar nesta tabela.
 
 ## Bateria
 
