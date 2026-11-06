@@ -45,7 +45,7 @@
 
         td_a: tap_dance_a {
             compatible = "zmk,behavior-tap-dance";
-            label = "TAP_DANCE_A";
+            display-name = "TAP_DANCE_A";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
             bindings = <&kp A>, <&kp RA(A)>, <&kp LS(RA(A))>;
@@ -53,7 +53,7 @@
 
         td_e: tap_dance_e {
             compatible = "zmk,behavior-tap-dance";
-            label = "TAP_DANCE_E";
+            display-name = "TAP_DANCE_E";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
             bindings = <&kp E>, <&kp RA(E)>, <&kp LS(RA(E))>;
@@ -64,7 +64,7 @@
         // Macros para palavras comuns em português
 
         cao: cao {
-            label = "cao";
+            display-name = "cao";
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp C &kp A &kp O &kp RA(TILDE)>;
