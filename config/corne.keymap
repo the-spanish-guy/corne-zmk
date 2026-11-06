@@ -14,15 +14,31 @@
     behaviors {
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
-            label = "HOMEROW_MODS";
+            display-name = "HOMEROW_MODS";
             #binding-cells = <2>;
             tapping-term-ms = <200>;
-            quick_tap_ms = <0>;
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
 
+            // Digitando (outra tecla apertada há menos de 180 ms), vira toque na hora,
+            // sem esperar os 200 ms para decidir. É isso que tira o atraso ao digitar.
+            require-prior-idle-ms = <180>;
+            // Tocar e segurar logo em seguida repete a letra em vez de virar modificador.
             quick-tap-ms = <180>;
-            global-quick-tap;
+        };
+
+        // Layer-tap para Enter e Espaço: toque digita, segurar ativa a layer.
+        lt_fast: layer_tap_fast {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "LAYER_TAP_FAST";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            // Digitando rápido, vira toque na hora (sem atraso).
+            require-prior-idle-ms = <150>;
+            // Segurou e soltou sem apertar nada: ainda digita a tecla.
+            retro-tap;
+            bindings = <&mo>, <&kp>;
         };
 
         // Tap dance para acentos
@@ -135,7 +151,7 @@
 &kp TAB    &kp Q           &kp W           &kp E         &kp R             &kp T        &kp Y        &kp U         &kp I         &kp O            &kp P     &kp BSPC
 &kp LCTRL  &hm LEFT_GUI A  &hm LEFT_ALT S  &hm LCTRL D   &hm LEFT_SHIFT F  &kp G        &kp H        &hm RSHIFT J  &hm RCTRL K   &hm RIGHT_ALT L  &kp SEMI  &kp SQT
 &kp LSHFT  &kp Z           &kp X           &kp C         &kp V             &kp B        &kp N        &kp M         &kp COMMA     &kp DOT          &kp FSLH  &kp ESC
-                                           &kp LEFT_GUI  &mo 1             &lt 2 ENTER  &lt 3 SPACE  &mo 2         &kp LEFT_ALT
+                                           &kp LEFT_GUI  &mo 1             &lt_fast 2 ENTER  &lt_fast 3 SPACE  &mo 2         &kp LEFT_ALT
             >;
         };
 
