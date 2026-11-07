@@ -14,6 +14,7 @@ A configuração do meu Corne sem fio (split, 3x6 + 3 teclas de polegar), feita 
 - [Bateria](#bateria)
 - [Mudando a configuração](#mudando-a-configuração)
 - [Se algo der errado](#se-algo-der-errado)
+- [Compilando no seu computador](#compilando-no-seu-computador-opcional)
 - [Créditos](#créditos)
 
 ## O que tem aqui
@@ -370,6 +371,51 @@ Costuma ser o que uma tela OLED mostra quando o firmware não a inicializou (ou 
 
 ### A Action falhou
 Abra a execução com o X vermelho, clique no job que falhou e leia a última parte do log. Os erros mais comuns são uma opção de configuração que não existe mais (o Kconfig reclama de um símbolo indefinido) e um módulo de tela que ainda não funciona com a versão atual do ZMK.
+
+## Compilando no seu computador (opcional)
+
+> Aviso: o download inicial tem uns **5 GB** (o ZMK, o Zephyr e os módulos) e leva alguns minutos. Isso só acontece na primeira vez.
+
+### 1. Baixar o ZMK e os módulos (só na primeira vez)
+
+```sh
+docker run --rm -v "$PWD":/workspace -w /workspace zmkfirmware/zmk-build-arm:stable \
+  bash -c 'west init -l config && west update'
+```
+
+Isso cria várias pastas dentro do projeto (`zmk`, `zephyr`, `modules`, `.west` e as dos módulos). Elas já estão no `.gitignore`, então não aparecem no `git status`. Rode de novo o `west update` (o mesmo comando acima, sem o `west init`) quando mudar o `config/west.yml`.
+
+### 2. Compilar
+
+Lado esquerdo (OLED, com o ZMK Studio):
+```sh
+docker run --rm -v "$PWD":/workspace -w /workspace zmkfirmware/zmk-build-arm:stable \
+  bash -c 'west zephyr-export >/dev/null && west build -s zmk/app -d build/left -b "nice_nano//zmk" -S studio-rpc-usb-uart -- -DSHIELD="corne_left nice_oled" -DZMK_CONFIG=/workspace/config'
+```
+
+Lado direito (OLED):
+```sh
+docker run --rm -v "$PWD":/workspace -w /workspace zmkfirmware/zmk-build-arm:stable \
+  bash -c 'west zephyr-export >/dev/null && west build -s zmk/app -d build/right -b "nice_nano//zmk" -- -DSHIELD="corne_right nice_oled" -DZMK_CONFIG=/workspace/config'
+```
+
+Os arquivos ficam em `build/left/zephyr/zmk.uf2` e `build/right/zephyr/zmk.uf2`. Grave cada um como na seção [Como instalar o firmware](#como-instalar-o-firmware) (passo 2).
+
+### Outras versões
+
+Troque só o `-DSHIELD` (e a pasta do `-d`):
+
+| Firmware | `-DSHIELD` | Extra |
+|---|---|---|
+| Esquerdo com nice!view | `"corne_left nice_view_adapter nice_view_gem"` | `-S studio-rpc-usb-uart` |
+| Direito com nice!view | `"corne_right nice_view_adapter nice_view_gem"` | |
+| Limpeza das configurações | `settings_reset` | |
+
+### Dicas
+
+- O `west zephyr-export` aparece em todo comando porque o container é descartado ao terminar; sem ele, o build reclama que não acha o Zephyr (`Could not find a package configuration file provided by "Zephyr"`).
+- Se o build ficar estranho depois de mexer muito na configuração, apague a pasta `build/` e compile de novo.
+- Estes comandos são os mesmos que a Action roda (o `build.yaml` diz o que compilar). Se funcionam aqui, funcionam lá.
 
 ## Créditos
 

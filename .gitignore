@@ -1,0 +1,13 @@
+# Criados pelo "west init/update" e pelos builds locais (veja o README)
+.west/
+build/
+zmk/
+zephyr/
+modules/
+optional/
+nice-view-battery/
+nice-view-elemental/
+nice-view-gem/
+zmk-nice-oled/
+zmk-rgb-matrix/
+zmk-shield-nice-view-cats/
