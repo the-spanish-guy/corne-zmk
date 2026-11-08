@@ -1,14 +1,3 @@
-/*
- * Efeitos de RGB (módulo zmk-rgb-matrix), compartilhados pelas duas metades.
- *
- * IMPORTANTE: as duas metades precisam ter EXATAMENTE os mesmos efeitos, na mesma
- * ordem. Por isso esta lista fica num arquivo só, incluído por corne_left.overlay e
- * corne_right.overlay. Se você acrescentar, tirar ou reordenar um efeito, as metades
- * saem de sincronia.
- *
- * Para trocar de efeito no teclado, use a layer 3 (tecla "RGB EFE").
- */
-
 &rgb_matrix {
     initial-on;
     /* Teto de brilho em %. O brilho real é este valor vezes o brilho atual (abaixo). */
@@ -53,6 +42,100 @@
             basis = "x";
             direction = "out";
             palette = "rainbow";
+        };
+
+        /*
+         * PARA TESTAR OUTROS EFEITOS NO TECLADO: descomente os que quiser abaixo, grave
+         * os dois lados e use "RGB EFE" (layer 3) para passar por eles (eles vêm depois
+         * dos 4 de cima, então a ordem dos de cima não muda). Depois comente de novo.
+         * As duas metades usam este mesmo arquivo, então ficam sincronizadas.
+         */
+        fx_solid: fx_solid {            /* 4: cor fixa */
+            compatible = "keypaw,rgb-matrix-solid";
+            color = <0xFF8000>;
+        };
+        fx_breathe: fx_breathe {        /* 5: respira (fade de brilho) */
+            compatible = "keypaw,rgb-matrix-breathe";
+            color = <0x0000FF>;
+            duration = <2400>;
+        };
+        fx_spectrum: fx_spectrum {      /* 6: o teclado todo percorre as cores */
+            compatible = "keypaw,rgb-matrix-spectrum";
+        };
+        fx_band: fx_band {              /* 7: faixa de brilho que se move */
+            compatible = "keypaw,rgb-matrix-band";
+            channel = "val";
+            shape = "linear";
+        };
+        fx_rain: fx_rain {              /* 8: teclas aleatórias acendendo */
+            compatible = "keypaw,rgb-matrix-rain";
+            mode = "pixel";
+        };
+        fx_stars: fx_stars {            /* 9: estrelinhas piscando */
+            compatible = "keypaw,rgb-matrix-starlight";
+            color = <0xFFFFFF>;
+            smooth;
+        };
+        fx_matrix: fx_matrix {          /* 10: chuva estilo Matrix */
+            compatible = "keypaw,rgb-matrix-digital-rain";
+        };
+    };
+
+    /* Layer 1 (números e símbolos): laranja respirando em "rio" */
+    layer1_fx: layer1_fx {
+        compatible = "keypaw,rgb-overlay";
+        condition = <&cond_layer1>;
+        all-leds;
+        fx_l1: fx_l1 {
+            compatible = "keypaw,rgb-matrix-breathe";
+            mode = "river";
+            color = <0xFF8000>;
+            duration = <2400>;
+        };
+    };
+
+    /* Layer 2 (navegação): ondas ciano a partir das teclas apertadas */
+    layer2_fx: layer2_fx {
+        compatible = "keypaw,rgb-overlay";
+        condition = <&cond_layer2>;
+        all-leds;
+        fx_l2: fx_l2 {
+            compatible = "keypaw,rgb-matrix-ripple";
+            color = <0x00FFFF>;
+            duration = <2000>;
+            background-brightness = <0>;
+        };
+    };
+
+    /* Layer 3 (Bluetooth, F1-F12, mídia, RGB): roxo respirando */
+    layer3_fx: layer3_fx {
+        compatible = "keypaw,rgb-overlay";
+        condition = <&cond_layer3>;
+        all-leds;
+        fx_l3: fx_l3 {
+            compatible = "keypaw,rgb-matrix-breathe";
+            mode = "brightness";
+            color = <0x8000FF>;
+            duration = <2400>;
+        };
+    };
+};
+
+/* Condições: "a layer N está ativa?". O ZMK avalia no lado esquerdo (central) e avisa o direito. */
+/ {
+    rgb_conditions: rgb_conditions {
+        compatible = "keypaw,rgb-conditions";
+        cond_layer1: cond_layer1 {
+            compatible = "keypaw,rgb-condition-layer";
+            layer = <1>;
+        };
+        cond_layer2: cond_layer2 {
+            compatible = "keypaw,rgb-condition-layer";
+            layer = <2>;
+        };
+        cond_layer3: cond_layer3 {
+            compatible = "keypaw,rgb-condition-layer";
+            layer = <3>;
         };
     };
 };
