@@ -12,21 +12,6 @@
 
 / {
     behaviors {
-        hm: homerow_mods {
-            compatible = "zmk,behavior-hold-tap";
-            display-name = "HOMEROW_MODS";
-            #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            flavor = "tap-preferred";
-            bindings = <&kp>, <&kp>;
-
-            // Digitando (outra tecla apertada há menos de 180 ms), vira toque na hora,
-            // sem esperar os 200 ms para decidir. É isso que tira o atraso ao digitar.
-            require-prior-idle-ms = <180>;
-            // Tocar e segurar logo em seguida repete a letra em vez de virar modificador.
-            quick-tap-ms = <180>;
-        };
-
         // Layer-tap para Enter e Espaço: toque digita, segurar ativa a layer.
         lt_fast: layer_tap_fast {
             compatible = "zmk,behavior-hold-tap";
@@ -45,50 +30,61 @@
     combos {
         compatible = "zmk,combos";
 
+        // layers = <0>: os combos só valem na layer base (como no QMK). Sem isso eles
+        // também disparavam nas outras layers (por exemplo, "56" virava "(" nos números).
+
         left_bkt {
             bindings = <&kp LEFT_BRACKET>;
             key-positions = <4 3>;
+            layers = <0>;
             timeout-ms = <50>;
         };
 
         right_bkt {
             bindings = <&kp RBKT>;
             key-positions = <7 8>;
+            layers = <0>;
             timeout-ms = <50>;
         };
 
         left_par {
             bindings = <&kp LEFT_PARENTHESIS>;
             key-positions = <15 16>;
+            layers = <0>;
             timeout-ms = <50>;
         };
 
         right_par {
             bindings = <&kp RIGHT_PARENTHESIS>;
             key-positions = <19 20>;
+            layers = <0>;
             timeout-ms = <50>;
         };
 
         left_brace {
             bindings = <&kp LEFT_BRACE>;
             key-positions = <27 28>;
+            layers = <0>;
             timeout-ms = <50>;
         };
 
         right_brace {
             bindings = <&kp RIGHT_BRACE>;
             key-positions = <32 31>;
+            layers = <0>;
             timeout-ms = <50>;
         };
 
         bac {
             bindings = <&kp BACKSLASH>;
             key-positions = <5 6>;
+            layers = <0>;
         };
 
         pipe {
             bindings = <&kp PIPE>;
             key-positions = <17 18>;
+            layers = <0>;
         };
     };
 
@@ -98,27 +94,29 @@
         default_layer {
             bindings = <
 &kp TAB    &kp Q           &kp W           &kp E         &kp R             &kp T        &kp Y        &kp U         &kp I         &kp O            &kp P     &kp BSPC
-&kp LCTRL  &hm LEFT_GUI A  &hm LEFT_ALT S  &hm LCTRL D   &hm LEFT_SHIFT F  &kp G        &kp H        &hm RSHIFT J  &hm RCTRL K   &hm RIGHT_ALT L  &kp SEMI  &kp SQT
+&kp LCTRL  &kp A  &kp S  &kp D   &kp F  &kp G        &kp H        &kp J  &kp K   &kp L  &kp SEMI  &kp SQT
 &kp LSHFT  &kp Z           &kp X           &kp C         &kp V             &kp B        &kp N        &kp M         &kp COMMA     &kp DOT          &kp FSLH  &kp ESC
-                                           &kp LEFT_GUI  &mo 1             &lt_fast 2 ENTER  &lt_fast 3 SPACE  &mo 2         &kp LEFT_ALT
+                                           &kp LEFT_GUI  &mo 1             &lt_fast 3 SPACE  &lt_fast 2 ENTER  &mo 2         &kp LEFT_ALT
             >;
         };
 
+        // Layer 1: números e setas
         lower_layer {
             bindings = <
-&kp GRAVE  &kp N1             &kp N2           &kp N3  &kp N4            &kp N5             &kp N6     &kp N7           &kp N8     &kp N9  &kp N0         &kp BSPC
-&trans     &trans             &trans           &trans  &trans            &kp F12            &kp MINUS  &kp EQUAL        &kp GRAVE  &trans  &kp SQT        &trans
-&trans     &ext_power EP_TOG  &trans           &trans  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &trans     &trans           &trans     &trans  &kp BACKSLASH  &trans
-                                               &trans  &trans            &trans             &trans     &kp RIGHT_SHIFT  &trans
+&trans  &kp N1       &kp N2      &kp N3  &kp N4  &kp N5     &kp N6  &kp N7    &kp N8  &kp N9     &kp N0  &kp BSPC
+&trans  &kp CAPS     &kp HOME    &kp END &trans  &kp F12    &kp LEFT &kp DOWN  &kp UP  &kp RIGHT  &trans  &trans
+&trans  &ext_power EP_TOG  &kp DELETE  &trans  &trans  &trans     &trans  &trans    &trans  &trans     &trans  &trans
+                                 &trans  &trans  &trans     &trans  &trans    &trans
             >;
         };
 
+        // Layer 2: símbolos
         raise_layer {
             bindings = <
-&trans  &kp ESC     &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp KP_NUMBER_0  &kp HOME  &trans    &kp UP    &trans     &trans  &trans
-&trans  &kp CAPS    &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &kp AT           &kp END   &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans
-&trans  &kp DELETE  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp DOT          &trans    &trans    &trans    &trans     &trans  &trans
-                                     &trans           &trans           &trans           &trans    &trans    &trans
+&trans  &kp EXCL     &kp AT      &kp HASH &kp DLLR &kp PRCNT  &kp CARET &kp AMPS   &kp STAR   &kp LPAR   &kp RPAR   &kp BSPC
+&trans  &trans       &trans      &trans   &trans   &trans     &kp MINUS  &kp EQUAL  &kp LBKT   &kp RBKT   &kp BSLH   &kp GRAVE
+&trans  &trans       &trans      &trans   &trans   &trans     &kp UNDER  &kp PLUS   &kp LBRC   &kp RBRC   &kp PIPE   &kp TILDE
+                                 &trans   &trans   &trans     &trans     &trans     &trans
             >;
         };
 

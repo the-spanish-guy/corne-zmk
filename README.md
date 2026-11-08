@@ -28,7 +28,6 @@ A configuração do meu Corne sem fio (split, 3x6 + 3 teclas de polegar), feita 
 
 **Software**
 - 4 layers
-- Teclas de modificador na linha do meio (segurar o `A`, `S`, `D`, `F`, `J`, `K` ou `L` vira Ctrl, Alt, Shift ou Win)
 - Combos para símbolos (colchetes, parênteses, chaves, `\` e pipe)
 - Telas OLED com animações (gato, Luna e outras), por meio do módulo `zmk-nice-oled`
 - Controle de Bluetooth (4 perfis), de mídia e do RGB direto no teclado
@@ -68,12 +67,12 @@ O teclado tem 4 layers (camadas). A principal é a 0, e as outras você acessa s
 
 ```mermaid
 graph TD
-    A[Layer 0 - Letras] -->|segurar a tecla do meio do polegar esquerdo| B[Layer 1 - Números e símbolos]
-    A -->|segurar Enter, ou a tecla do meio da direita| C[Layer 2 - Navegação]
+    A[Layer 0 - Letras] -->|segurar a tecla do meio do polegar esquerdo| B[Layer 1 - Números e setas]
+    A -->|segurar Enter, ou a tecla do meio da direita| C[Layer 2 - Símbolos]
     A -->|segurar Espaço| D[Layer 3 - Bluetooth, F1 a F12, mídia e RGB]
 ```
 
-Nos desenhos abaixo, um ponto (`·`) é uma tecla que não faz nada de novo naquela layer e usa a da layer de baixo. Um `A·GUI` quer dizer "toque para A, segure para Win".
+Nos desenhos abaixo, um ponto (`·`) é uma tecla que não faz nada de novo naquela layer e usa a da layer de baixo. Um `ESP·L3` quer dizer "toque para Espaço, segure para a layer 3".
 
 ### Layer 0: letras (base)
 
@@ -81,47 +80,49 @@ Nos desenhos abaixo, um ponto (`·`) é uma tecla que não faz nada de novo naqu
 ,-------+-------+-------+-------+-------+-------.     ,-------+-------+-------+-------+-------+-------.
 |  TAB  |   Q   |   W   |   E   |   R   |   T   |     |   Y   |   U   |   I   |   O   |   P   | BKSP  |
 |-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
-| CTRL  | A·GUI | S·ALT | D·CTL | F·SFT |   G   |     |   H   | J·SFT | K·CTL | L·ALT |   ;   |   '   |
+| CTRL  |   A   |   S   |   D   |   F   |   G   |     |   H   |   J   |   K   |   L   |   ;   |   '   |
 |-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
 | SHIFT |   Z   |   X   |   C   |   V   |   B   |     |   N   |   M   |   ,   |   .   |   /   |  ESC  |
 `-------+-------+-------+-------+-------+-------'     `-------+-------+-------+-------+-------+-------'
-                        |  WIN  |  L1   |ENT·L2 |     |ESP·L3 |  L2   |  ALT  |
+                        |  WIN  |  L1   |ESP·L3 |     |ENT·L2 |  L2   |  ALT  |
                         `-----------------------'     `-----------------------'
 ```
 
 Nos polegares:
-- **Esquerda:** Win, `L1` (segurar abre a layer 1), `Enter` (toque) ou layer 2 (segurar)
-- **Direita:** `Espaço` (toque) ou layer 3 (segurar), `L2` (segurar abre a layer 2), Alt
+- **Esquerda:** Win, `L1` (segurar abre a layer 1), `Espaço` (toque) ou layer 3 (segurar)
+- **Direita:** `Enter` (toque) ou layer 2 (segurar), `L2` (segurar abre a layer 2), Alt
 
-### Layer 1: números e símbolos
-
-```
-,-------+-------+-------+-------+-------+-------.     ,-------+-------+-------+-------+-------+-------.
-|   `   |   1   |   2   |   3   |   4   |   5   |     |   6   |   7   |   8   |   9   |   0   | BKSP  |
-|-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
-|   ·   |   ·   |   ·   |   ·   |   ·   |  F12  |     |   -   |   =   |   `   |   ·   |   '   |   ·   |
-|-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
-|   ·   |EXT PWR|   ·   |   ·   |   [   |   ]   |     |   ·   |   ·   |   ·   |   ·   |   \   |   ·   |
-`-------+-------+-------+-------+-------+-------'     `-------+-------+-------+-------+-------+-------'
-                        |   ·   |   ·   |   ·   |     |   ·   | SHIFT |   ·   |
-                        `-----------------------'     `-----------------------'
-```
-
-`EXT PWR` liga e desliga a alimentação externa dos LEDs. Para ligar e desligar o efeito de RGB, use `RGB LIG` na layer 3.
-
-### Layer 2: navegação e teclado numérico
+### Layer 1: números e setas
 
 ```
 ,-------+-------+-------+-------+-------+-------.     ,-------+-------+-------+-------+-------+-------.
-|   ·   |  ESC  |   7   |   8   |   9   |   0   |     | HOME  |   ·   |   ↑   |   ·   |   ·   |   ·   |
+|   ·   |   1   |   2   |   3   |   4   |   5   |     |   6   |   7   |   8   |   9   |   0   | BKSP  |
 |-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
-|   ·   | CAPS  |   4   |   5   |   6   |   @   |     |  END  |   ←   |   ↓   |   →   |   ·   |   ·   |
+|   ·   | CAPS  | HOME  |  END  |   ·   |  F12  |     |   ←   |   ↓   |   ↑   |   →   |   ·   |   ·   |
 |-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
-|   ·   |  DEL  |   1   |   2   |   3   |   .   |     |   ·   |   ·   |   ·   |   ·   |   ·   |   ·   |
+|   ·   |EXT PWR|  DEL  |   ·   |   ·   |   ·   |     |   ·   |   ·   |   ·   |   ·   |   ·   |   ·   |
 `-------+-------+-------+-------+-------+-------'     `-------+-------+-------+-------+-------+-------'
                         |   ·   |   ·   |   ·   |     |   ·   |   ·   |   ·   |
                         `-----------------------'     `-----------------------'
 ```
+
+As setas ficam em `H J K L` (← ↓ ↑ →), como no Vim. `EXT PWR` liga e desliga a alimentação externa dos LEDs. Para ligar e desligar o efeito de RGB, use `RGB LIG` na layer 3.
+
+### Layer 2: símbolos
+
+```
+,-------+-------+-------+-------+-------+-------.     ,-------+-------+-------+-------+-------+-------.
+|   ·   |   !   |   @   |   #   |   $   |   %   |     |   ^   |   &   |   *   |   (   |   )   | BKSP  |
+|-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
+|   ·   |   ·   |   ·   |   ·   |   ·   |   ·   |     |   -   |   =   |   [   |   ]   |   \   |   `   |
+|-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
+|   ·   |   ·   |   ·   |   ·   |   ·   |   ·   |     |   _   |   +   |   {   |   }   |   |   |   ~   |
+`-------+-------+-------+-------+-------+-------'     `-------+-------+-------+-------+-------+-------'
+                        |   ·   |   ·   |   ·   |     |   ·   |   ·   |   ·   |
+                        `-----------------------'     `-----------------------'
+```
+
+Os números e as setas ficam na layer 1, e os símbolos aqui. Os combos de `[ ] ( ) { } \ |` na base (veja [Combos e atalhos](#combos-e-atalhos)) fazem o mesmo mais rápido.
 
 ### Layer 3: Bluetooth, funções, mídia e RGB
 
@@ -142,7 +143,7 @@ Nos polegares:
 
 ## Combos e atalhos
 
-Um **combo** é apertar duas teclas ao mesmo tempo para fazer outra coisa. Aqui, as duas teclas precisam ser apertadas quase juntas (em menos de 50 milissegundos).
+Um **combo** é apertar duas teclas ao mesmo tempo para fazer outra coisa. Aqui, as duas teclas precisam ser apertadas quase juntas (em menos de 50 milissegundos). Os combos só funcionam na **layer base**: quando você segura uma layer (números, setas etc.), eles ficam desligados, para `5` e `6` digitados juntos não virarem `(`.
 
 | Teclas juntas | Resultado | Para quê |
 |---|---|---|
@@ -155,7 +156,7 @@ Um **combo** é apertar duas teclas ao mesmo tempo para fazer outra coisa. Aqui,
 | `T` + `Y` | `\` | Barra invertida |
 | `G` + `H` | `\|` | Pipe, comum no terminal |
 
-> Os colchetes e o `\` também estão na layer 1, caso você prefira digitar assim.
+> Todos esses símbolos também estão na layer 2, caso você prefira digitar assim.
 
 ## Escrevendo em português
 
@@ -273,8 +274,8 @@ Enquanto você segura uma layer, o efeito dela **cobre** o efeito normal; ao sol
 | Layer | Como entra | Efeito |
 |---|---|---|
 | 0 (base) | | o efeito escolhido com `RGB EFE` |
-| 1 (números e símbolos) | segurar a tecla `L1` | Laranja respirando, em "rio" |
-| 2 (navegação) | segurar o Enter | Ondas ciano nas teclas apertadas |
+| 1 (números e setas) | segurar a tecla `L1` | Laranja respirando, em "rio" |
+| 2 (símbolos) | segurar o Enter | Ondas ciano nas teclas apertadas |
 | 3 (Bluetooth, F1 a F12, mídia, RGB) | segurar o Espaço | Roxo respirando |
 
 Os efeitos das layers são **fixos**: o `RGB EFE` troca só o efeito da layer base. Se duas layers estiverem ativas juntas, a de número maior aparece.
@@ -322,7 +323,7 @@ O desenho abaixo mostra o número que está impresso na placa ao lado de cada te
                         `-----------------------'     `-----------------------'
 ```
 
-Nos polegares, o `LED27` fica sob a tecla do **Enter** (polegar de dentro, lado esquerdo) e o `LED54` sob a tecla do **Espaço** (polegar de dentro, lado direito).
+Nos polegares, o `LED27` fica sob o polegar de dentro do lado esquerdo (hoje a tecla do **Espaço**) e o `LED54` sob o polegar de dentro do lado direito (hoje a tecla do **Enter**).
 
 Os números seguem a **ordem de leitura da placa** (linha por linha, da borda externa para a interna), e **não** a ordem em que os LEDs estão ligados entre si. Por isso eles servem para você achar um LED na placa, mas não para saber qual acende primeiro.
 
