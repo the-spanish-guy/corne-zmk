@@ -239,32 +239,75 @@ Cada uma tem uma opção irmã terminada em `_ANIMATION_MS` para ajustar a veloc
 
 ## Efeitos de RGB
 
-O RGB é controlado pelo módulo [zmk-rgb-matrix](https://github.com/gudzpoz/zmk-rgb-matrix), que permite efeitos que **reagem às teclas** (o ZMK sozinho não tem isso). Os 4 efeitos abaixo ficam no `config/boards/shields/corne/corne-rgb-effects.dtsi`. Para trocar de um para o outro, use `RGB EFE` na layer 3. Ao ligar, o teclado começa no primeiro.
+O RGB é controlado pelo módulo [zmk-rgb-matrix](https://github.com/gudzpoz/zmk-rgb-matrix), que permite efeitos que **reagem às teclas** (o ZMK sozinho não tem isso). Os efeitos ficam no `config/boards/shields/corne/corne-rgb-effects.dtsi`.
+
+### Controles (layer 3, segurando o Espaço)
+
+| Tecla | Faz |
+|---|---|
+| `RGB EFE` | Próximo efeito |
+| `RGB EFR` | Efeito anterior |
+| `RGB LIG` | Liga e desliga o RGB |
+| `RGB BRI` / `RGB BRD` | Aumenta / diminui o brilho |
+| `RGB VEL` | Muda a velocidade do efeito atual |
+
+O teclado lembra o último efeito escolhido. O RGB **apaga sozinho no idle** (2 minutos parado) e volta quando você digita de novo.
+
+### Os 11 efeitos
+
+O `RGB EFE` passa por estes efeitos, na ordem. Ao ligar pela primeira vez, o teclado começa no 0.
 
 | # | Efeito | O que faz |
 |---|---|---|
 | 0 | **Reativo** (padrão) | Só a tecla que você apertou acende, em ciano, e vai apagando devagar (uns 1,5 s). O resto fica apagado. Várias teclas ao mesmo tempo acendem juntas |
 | 1 | **Ondas** (ripple) | Cada tecla apertada solta uma onda que se espalha pelas teclas vizinhas |
-| 2 | **Mapa de calor** (heatmap) | As teclas que você mais aperta ficam "mais quentes" (mudam de cor com o uso) |
+| 2 | **Mapa de calor** (heatmap) | As teclas que você mais aperta ficam "mais quentes" |
 | 3 | **Arco-íris** | Um arco-íris que se move pelo teclado, parecido com o antigo swirl |
+| 4 | **Cor fixa** (solid) | Todos os LEDs numa cor só (laranja) |
+| 5 | **Respirar** (breathe) | Fade de brilho, em azul |
+| 6 | **Espectro** (spectrum) | O teclado inteiro percorre as cores do arco-íris ao mesmo tempo |
+| 7 | **Faixa** (band) | Uma faixa de brilho que atravessa o teclado |
+| 8 | **Chuva** (rain) | Teclas aleatórias acendendo, cada uma numa cor |
+| 9 | **Estrelas** (starlight) | LEDs piscando aos poucos, como estrelas, em branco |
+| 10 | **Matrix** (digital rain) | Colunas de luz verde "caindo", estilo Matrix |
 
-O RGB **apaga sozinho no idle** (2 minutos parado) e volta quando você digita de novo.
+Os efeitos 0 a 3 gastam menos bateria quando você não está digitando (o reativo e as ondas ficam quase todos apagados). Os que acendem todos os LEDs o tempo todo, como o 4, 5, 6 e o arco-íris, gastam mais enquanto estão ativos.
+
+### Um efeito para cada layer
+
+Enquanto você segura uma layer, o efeito dela **cobre** o efeito normal; ao soltar, o efeito que você tinha escolhido volta do jeito que estava (inclusive o escolhido com `RGB EFE`).
+
+| Layer | Como entra | Efeito |
+|---|---|---|
+| 0 (base) | | o efeito escolhido com `RGB EFE` |
+| 1 (números e símbolos) | segurar a tecla `L1` | Laranja respirando, em "rio" |
+| 2 (navegação) | segurar o Enter | Ondas ciano nas teclas apertadas |
+| 3 (Bluetooth, F1 a F12, mídia, RGB) | segurar o Espaço | Roxo respirando |
+
+Os efeitos das layers são **fixos**: o `RGB EFE` troca só o efeito da layer base. Se duas layers estiverem ativas juntas, a de número maior aparece.
 
 ### Mudando os efeitos
 
-No `corne-rgb-effects.dtsi`:
+Tudo isso fica no `corne-rgb-effects.dtsi`. Exemplos do que dá para mexer:
 
 ```
 max-brightness = <60>;        # teto de brilho (%)
 initial-brightness = <30>;    # brilho ao ligar (% do teto)
-initial-effect = <0>;         # efeito ao ligar (0 a 3)
-color = <0x00FFFF>;           # cor do reativo e das ondas (RGB em hexadecimal)
-duration = <1500>;            # quanto tempo o reativo leva para apagar (ms)
+initial-effect = <0>;         # efeito ao ligar (0 a 10)
+color = <0x00FFFF>;           # cor do efeito (RGB em hexadecimal; ciano, aqui)
+duration = <1500>;            # velocidade/duração do efeito (ms)
 ```
 
-**Cuidado:** as duas metades precisam ter exatamente os mesmos efeitos, na mesma ordem. Por isso a lista fica num arquivo só, usado pelas duas. Se você acrescentar, tirar ou reordenar efeitos, mexa sempre nesse arquivo (nunca só em uma das metades).
+- **Trocar a cor de uma layer:** procure `fx_l1`, `fx_l2` ou `fx_l3` e mude o `color`.
+- **Trocar o efeito de uma layer:** troque o `compatible` e as propriedades do efeito dentro dela (`layer1_fx`, `layer2_fx` ou `layer3_fx`), usando um dos efeitos da lista do módulo.
+- **Tirar um efeito do ciclo do `RGB EFE`:** apague (ou comente com `//`) o bloco dele dentro do `zone`. Ao tirar, os efeitos seguintes mudam de número.
+- **Acrescentar um efeito:** copie um bloco existente no `zone` e ajuste. Coloque sempre **no final** da lista, para não mudar o número dos outros.
 
-Esse módulo traz outros efeitos além destes quatro. Os que estão no projeto foram escolhidos por serem os mais úteis; veja a documentação do módulo para a lista completa.
+**Cuidado:** as duas metades precisam ter exatamente os mesmos efeitos, na mesma ordem. Por isso a lista fica num arquivo só, usado pelas duas. Mexa sempre nesse arquivo, nunca só em uma das metades.
+
+### Mais variações
+
+Cada efeito tem variações (por exemplo, o arco-íris pode girar em espiral ou em cruz, e o reativo pode acender um disco em volta da tecla). Veja todas, com animação e o trecho pronto para copiar, na [galeria do módulo](https://gudzpoz.github.io/zmk-rgb-matrix/).
 
 ## Mapa dos LEDs RGB
 
