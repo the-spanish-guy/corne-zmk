@@ -176,7 +176,7 @@
         layer_3 {
             bindings = <
 &trans  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_CLR       &kp F1  &kp F2  &kp F3  &kp F4   &kp F5   &kp F6
-&trans  &rgb_matrix RGB_TOG  &zone RGB_EFF  &rgb_matrix RGB_BRI  &rgb_matrix RGB_BRD  &zone RGB_SPI  &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
+&zone RGB_EFR  &rgb_matrix RGB_TOG  &zone RGB_EFF  &rgb_matrix RGB_BRI  &rgb_matrix RGB_BRD  &zone RGB_SPI  &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
 &trans  &kp C_PREV       &kp C_PP         &kp C_NEXT       &kp C_VOL_DN     &kp C_VOL_UP     &trans  &trans  &trans  &trans   &trans   &trans
                                           &trans           &trans           &trans           &trans  &trans  &trans
             >;

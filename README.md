@@ -119,6 +119,8 @@ Nos polegares:
 |-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
 |   ·   |  DEL  |   1   |   2   |   3   |   .   |     |   ·   |   ·   |   ·   |   ·   |   ·   |   ·   |
 `-------+-------+-------+-------+-------+-------'     `-------+-------+-------+-------+-------+-------'
+                        |   ·   |   ·   |   ·   |     |   ·   |   ·   |   ·   |
+                        `-----------------------'     `-----------------------'
 ```
 
 ### Layer 3: Bluetooth, funções, mídia e RGB
@@ -127,14 +129,16 @@ Nos polegares:
 ,-------+-------+-------+-------+-------+-------.     ,-------+-------+-------+-------+-------+-------.
 |   ·   |  BT 1 |  BT 2 |  BT 3 |  BT 4 | BT CLR|     |  F1   |  F2   |  F3   |  F4   |  F5   |  F6   |
 |-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
-|   ·   |RGB LIG|RGB EFE|RGB BRI|RGB BRD|RGB VEL|     |  F7   |  F8   |  F9   |  F10  |  F11  |  F12  |
+|RGB EFR|RGB LIG|RGB EFE|RGB BRI|RGB BRD|RGB VEL|     |  F7   |  F8   |  F9   |  F10  |  F11  |  F12  |
 |-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
 |   ·   | ANTER | PLAY  | PRÓX  | VOL - | VOL + |     |   ·   |   ·   |   ·   |   ·   |   ·   |   ·   |
 `-------+-------+-------+-------+-------+-------'     `-------+-------+-------+-------+-------+-------'
+                        |   ·   |   ·   |   ·   |     |   ·   |   ·   |   ·   |
+                        `-----------------------'     `-----------------------'
 ```
 
 - `BT 1` a `BT 4` escolhem com qual aparelho o teclado fala (4 perfis). `BT CLR` apaga o pareamento do perfil atual.
-- `RGB LIG` liga e desliga o RGB, `RGB EFE` passa para o próximo efeito (veja os [efeitos](#efeitos-de-rgb)), `RGB BRI` e `RGB BRD` aumentam e diminuem o brilho, `RGB VEL` muda a velocidade do efeito atual.
+- `RGB LIG` liga e desliga o RGB, `RGB EFE` passa para o próximo efeito e `RGB EFR` volta para o anterior (veja os [efeitos](#efeitos-de-rgb)), `RGB BRI` e `RGB BRD` aumentam e diminuem o brilho, `RGB VEL` muda a velocidade do efeito atual.
 
 ## Combos e atalhos
 
