@@ -29,7 +29,7 @@ A configuração do meu Corne sem fio (split, 3x6 + 3 teclas de polegar), feita 
 **Software**
 - 4 layers
 - Teclas de modificador na linha do meio (segurar o `A`, `S`, `D`, `F`, `J`, `K` ou `L` vira Ctrl, Alt, Shift ou Win)
-- Combos para símbolos e acentos
+- Combos para símbolos (colchetes, parênteses, chaves, `\` e pipe)
 - Telas OLED com animações (gato, Luna e outras), por meio do módulo `zmk-nice-oled`
 - Controle de Bluetooth (4 perfis), de mídia e do RGB direto no teclado
 - ZMK Studio no lado esquerdo, para editar o keymap sem recompilar
@@ -99,7 +99,7 @@ Nos polegares:
 ,-------+-------+-------+-------+-------+-------.     ,-------+-------+-------+-------+-------+-------.
 |   `   |   1   |   2   |   3   |   4   |   5   |     |   6   |   7   |   8   |   9   |   0   | BKSP  |
 |-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
-|   ·   | RGB ON|RGB OFF|   ·   |   ·   |  F12  |     |   -   |   =   |   `   |   ·   |   '   |   ·   |
+|   ·   |   ·   |   ·   |   ·   |   ·   |  F12  |     |   -   |   =   |   `   |   ·   |   '   |   ·   |
 |-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
 |   ·   |EXT PWR|   ·   |   ·   |   [   |   ]   |     |   ·   |   ·   |   ·   |   ·   |   \   |   ·   |
 `-------+-------+-------+-------+-------+-------'     `-------+-------+-------+-------+-------+-------'
@@ -107,7 +107,7 @@ Nos polegares:
                         `-----------------------'     `-----------------------'
 ```
 
-`EXT PWR` liga e desliga a alimentação externa dos LEDs. `RGB ON` e `RGB OFF` ligam e desligam o efeito.
+`EXT PWR` liga e desliga a alimentação externa dos LEDs. Para ligar e desligar o efeito de RGB, use `RGB LIG` na layer 3.
 
 ### Layer 2: navegação e teclado numérico
 
@@ -146,9 +146,6 @@ Um **combo** é apertar duas teclas ao mesmo tempo para fazer outra coisa. Aqui,
 
 | Teclas juntas | Resultado | Para quê |
 |---|---|---|
-| `Q` + `W` | Esc | Sair de modos e fechar janelas |
-| `E` + `D` | ç | Cedilha |
-| `A` + `S` | tap dance do `A` | Acentos (veja abaixo). Experimental |
 | `R` + `E` | `[` | Colchete esquerdo |
 | `U` + `I` | `]` | Colchete direito |
 | `D` + `F` | `(` | Parêntese esquerdo |
@@ -162,11 +159,7 @@ Um **combo** é apertar duas teclas ao mesmo tempo para fazer outra coisa. Aqui,
 
 ## Escrevendo em português
 
-**Acentos com toque repetido (tap dance):** o `A` tem um "tap dance": tocar uma, duas ou três vezes seguidas dá versões diferentes da letra. Hoje ele é acionado pelo combo `A` + `S` (veja a tabela de combos). O segundo toque usa a tecla **AltGr** e o terceiro usa **AltGr com Shift**, então o que aparece depende do layout do teclado do seu sistema (por exemplo, "US Internacional"). Se não sair o acento que você espera, ajuste o layout do sistema. Existe também um tap dance para o `E`, mas ele ainda não está ligado a nenhuma tecla.
-
-**Macro `cao`:** digita as teclas C, A, O e um til por AltGr. Também depende do layout do sistema.
-
-O `ç` tem um combo próprio: aperte `E` e `D` juntos.
+O teclado não tem teclas de acento: ele manda as teclas "de teclado americano", e quem faz o acento é o **layout do seu sistema**. O jeito mais simples é usar o layout **"US Internacional"** (no Windows, no macOS e no Linux): você digita `'` e depois a vogal para `á`, `~` e `a` para `ã`, `^` e `e` para `ê`, e `'` seguido de `c` para `ç`. Para um acento solto, aperte o acento e depois o Espaço.
 
 ## Animações do OLED
 
@@ -373,7 +366,7 @@ Essa ordem está nos arquivos `corne_left.overlay` e `corne_right.overlay` (nó 
 
 | Arquivo | Para quê |
 |---|---|
-| `config/corne.keymap` | O layout: teclas, layers, combos, macros |
+| `config/corne.keymap` | O layout: teclas, layers e combos |
 | `config/corne.conf` | Opções das **duas** metades: tela, RGB, bateria, sleep e Bluetooth |
 | `config/boards/shields/corne/corne_left.conf` | Só do lado esquerdo (ZMK Studio) |
 | `config/boards/shields/corne/corne_right.conf` | Só do lado direito (hoje vazio) |
