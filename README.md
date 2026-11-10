@@ -68,11 +68,11 @@ O teclado tem 4 layers (camadas). A principal é a 0, e as outras você acessa s
 ```mermaid
 graph TD
     A[Layer 0 - Letras] -->|segurar a tecla do meio do polegar esquerdo| B[Layer 1 - Números e setas]
-    A -->|segurar Enter, ou a tecla do meio da direita| C[Layer 2 - Símbolos]
-    A -->|segurar Espaço| D[Layer 3 - Bluetooth, F1 a F12, mídia e RGB]
+    A -->|segurar a tecla do meio do polegar direito| C[Layer 2 - Símbolos]
+    A -->|segurar Enter| D[Layer 3 - Bluetooth, F1 a F12, mídia e RGB]
 ```
 
-Nos desenhos abaixo, um ponto (`·`) é uma tecla que não faz nada de novo naquela layer e usa a da layer de baixo. Um `ESP·L3` quer dizer "toque para Espaço, segure para a layer 3".
+Nos desenhos abaixo, um ponto (`·`) é uma tecla que não faz nada de novo naquela layer e usa a da layer de baixo. Um `ENT·L3` quer dizer "toque para Enter, segure para a layer 3".
 
 ### Layer 0: letras (base)
 
@@ -84,13 +84,13 @@ Nos desenhos abaixo, um ponto (`·`) é uma tecla que não faz nada de novo naqu
 |-------+-------+-------+-------+-------+-------|     |-------+-------+-------+-------+-------+-------|
 | SHIFT |   Z   |   X   |   C   |   V   |   B   |     |   N   |   M   |   ,   |   .   |   /   |  ESC  |
 `-------+-------+-------+-------+-------+-------'     `-------+-------+-------+-------+-------+-------'
-                        |  WIN  |  L1   |ESP·L3 |     |ENT·L2 |  L2   |  ALT  |
+                        |  WIN  |  L1   | ESPAÇO|     |ENT·L3 |  L2   |  ALT  |
                         `-----------------------'     `-----------------------'
 ```
 
 Nos polegares:
-- **Esquerda:** Win, `L1` (segurar abre a layer 1), `Espaço` (toque) ou layer 3 (segurar)
-- **Direita:** `Enter` (toque) ou layer 2 (segurar), `L2` (segurar abre a layer 2), Alt
+- **Esquerda:** Win, `L1` (segurar abre a layer 1), `Espaço`
+- **Direita:** `Enter` (toque) ou layer 3 (segurar), `L2` (segurar abre a layer 2), Alt
 
 ### Layer 1: números e setas
 
@@ -235,7 +235,7 @@ Cada uma tem uma opção irmã terminada em `_ANIMATION_MS` para ajustar a veloc
 
 O RGB é controlado pelo módulo [zmk-rgb-matrix](https://github.com/gudzpoz/zmk-rgb-matrix), que permite efeitos que **reagem às teclas** (o ZMK sozinho não tem isso). Os efeitos ficam no `config/boards/shields/corne/corne-rgb-effects.dtsi`.
 
-### Controles (layer 3, segurando o Espaço)
+### Controles (layer 3, segurando o Enter)
 
 | Tecla | Faz |
 |---|---|
@@ -275,8 +275,8 @@ Enquanto você segura uma layer, o efeito dela **cobre** o efeito normal; ao sol
 |---|---|---|
 | 0 (base) | | o efeito escolhido com `RGB EFE` |
 | 1 (números e setas) | segurar a tecla `L1` | Laranja respirando, em "rio" |
-| 2 (símbolos) | segurar o Enter | Ondas ciano nas teclas apertadas |
-| 3 (Bluetooth, F1 a F12, mídia, RGB) | segurar o Espaço | Roxo respirando |
+| 2 (símbolos) | segurar a tecla `L2` | Ondas ciano nas teclas apertadas |
+| 3 (Bluetooth, F1 a F12, mídia, RGB) | segurar o Enter | Roxo respirando |
 
 Os efeitos das layers são **fixos**: o `RGB EFE` troca só o efeito da layer base. Se duas layers estiverem ativas juntas, a de número maior aparece.
 
